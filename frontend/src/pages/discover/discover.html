@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/discover/discover.css">
 </head>
 <body>
     <!-- Top Logo Bar -->
@@ -23,5 +24,114 @@
             <li><a href="../help/help.html">Help</a></li>
         </ul>
     </nav>
+
+    <!-- Discover Header Section -->
+    <section class="discover-header">
+        <div class="discover-container">
+            <h1>Discover</h1>
+
+            <form class="search-box" action="../search-results/search-results.html" method="GET">
+                <input type="text" name="query" placeholder="Search by title or author..." required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Explore Section -->
+    <section class="explore-section">
+        <h2>Explore What’s Available</h2>
+
+        <div class="featured-wrapper">
+            <!-- Featured Cards -->
+            <div class="featured-cards">
+                <div class="featured-card">
+                    <div class="featured-img"></div>
+                    <div class="featured-content">
+                        <span>Highly recommended for you</span>
+                        <h3>Title</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <button class="details-btn">View Details</button>
+                    </div>
+                </div>
+
+                <div class="featured-card">
+                    <div class="featured-img"></div>
+                    <div class="featured-content">
+                        <span>Highly recommended for you</span>
+                        <h3>Title</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <button class="details-btn">View Details</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trending Sidebar -->
+            <div class="trending-side">
+                <div class="trending-header">
+                    <h3>See what’s trending</h3>
+                    <a href="trending.html" class="view-all">View All</a>
+                </div>
+
+                <div class="trend-item">
+                    <div class="trend-img"></div>
+                    <div>
+                        <strong>Title</strong>
+                        <p>Author</p>
+                    </div>
+                </div>
+
+                <div class="trend-item">
+                    <div class="trend-img"></div>
+                    <div>
+                        <strong>Title</strong>
+                        <p>Author</p>
+                    </div>
+                </div>
+
+                <div class="trend-item">
+                    <div class="trend-img"></div>
+                    <div>
+                        <strong>Title</strong>
+                        <p>Author</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommended & Trending Bottom -->
+    <section class="bottom-section">
+        <div class="bottom-wrapper">
+            <div class="recommended">
+                <div class="section-header">
+                    <h3>Recommended for you</h3>
+                    <a href="recommended.html" class="arrow-btn">➜</a>
+                </div>
+
+                <div class="card-row">
+                    <div class="book-card"></div>
+                    <div class="book-card"></div>
+                    <div class="book-card"></div>
+                    <div class="book-card"></div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="trending">
+                <div class="section-header">
+                    <h3>Trending</h3>
+                    <a href="trending.html" class="arrow-btn">➜</a>
+                </div>
+
+                <div class="card-row">
+                    <div class="book-card"></div>
+                    <div class="book-card"></div>
+                    <div class="book-card"></div>
+                    <div class="book-card"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
