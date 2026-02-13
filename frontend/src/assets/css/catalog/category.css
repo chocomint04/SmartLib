@@ -1,0 +1,145 @@
+/* Catalog Header */
+.catalog-header {
+    background-color: #c62828;
+    padding: 16px 64px;   /* reduced from 40px */
+    color: white;
+}
+
+.catalog-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.catalog-header h1 {
+    font-size: 48px;      /* reduced from 60px */
+    font-family: Georgia, serif;
+}
+
+/* Search Box */
+.search-box {
+    display: flex;
+    width: 420px;         /* slightly smaller */
+}
+
+.search-box input {
+    padding: 8px 128px 8px 16px;   /* reduced height */
+    border: none;
+    border-radius: 25px 0 0 25px;
+    outline: none;
+}
+
+.search-box button {
+    background-color: #f4b400;
+    border: none;
+    padding: 10px 24px;   /* reduced height */
+    border-radius: 0 25px 25px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Results Section */
+.category-results {
+    padding: 32px 64px;
+}
+
+/* Title Area */
+.category-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.left-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.back-arrow {
+    text-decoration: none;
+    font-size: 26px;
+    color: #f4b400;
+    font-weight: bold;
+}
+
+.category-title h2 {
+    font-size: 24px;
+}
+
+.result-count {
+    color: #333;
+}
+
+/* Results Layout */
+.results-container {
+    display: flex;
+    gap: 40px;
+}
+
+.results-column {
+    flex: 1;
+}
+
+.vertical-divider {
+    width: 1px;
+    background: #999;
+}
+
+/* Result Item */
+.result-item {
+    display: flex;
+    gap: 25px;
+    padding: 20px 0;
+    align-items: flex-start;
+}
+
+.result-cover {
+    width: 150px;
+    height: 210px;
+    background: #ddd;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+.result-info h3 {
+    font-size: 22px;
+    margin: 10px 0;
+}
+
+.result-info p {
+    margin: 4px 0;
+    font-size: 14px;
+}
+
+.type-badge {
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1px solid #aaa;
+    border-radius: 20px;
+    background: #f2f2f2;
+}
+
+/* View Details Button */
+.details-btn {
+    margin-left: auto;
+    align-self: center;
+    padding: 10px 25px;
+    border: 2px solid #c62828;
+    border-radius: 30px;
+    text-decoration: none;
+    color: #c62828;
+    font-weight: 600;
+}
+
+.details-btn:hover {
+    background: #c62828;
+    color: white;
+}
+
+/* Divider Line */
+hr {
+    border: none;
+    border-top: 1px solid #bbb;
+}

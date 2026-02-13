@@ -1,0 +1,116 @@
+/* Catalog Header */
+.catalog-header {
+    background-color: #c62828;
+    padding: 16px 64px;   /* reduced from 40px */
+    color: white;
+}
+
+.catalog-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.catalog-header h1 {
+    font-size: 48px;      /* reduced from 60px */
+    font-family: Georgia, serif;
+}
+
+/* Search Box */
+.search-box {
+    display: flex;
+    width: 420px;         /* slightly smaller */
+}
+
+.search-box input {
+    padding: 8px 128px 8px 16px;   /* reduced height */
+    border: none;
+    border-radius: 25px 0 0 25px;
+    outline: none;
+}
+
+.search-box button {
+    background-color: #f4b400;
+    border: none;
+    padding: 10px 24px;   /* reduced height */
+    border-radius: 0 25px 25px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ===== Catalog Wrapper ===== */
+.catalog-page {
+    padding: 32px 64px;
+}
+
+/* ===== Section Titles ===== */
+.catalog-section h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-family: Georgia, serif;
+}
+
+/* ===== Featured Categories Grid ===== */
+.featured-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-bottom: 50px;
+}
+
+/* ===== Category Cards ===== */
+.category-card {
+    background-color: #b71c1c;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.2s ease;
+}
+
+.category-card h3 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.category-card p {
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+}
+
+/* ===== All Categories Box ===== */
+.all-categories-box {
+    background-color: #f0f0f0;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* ===== All Categories Grid ===== */
+.all-categories-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
+}
+
+/* ===== Category Column Links ===== */
+.cat-col a {
+    display: block;
+    margin: 15px 0;
+    text-decoration: none;
+    font-weight: bold;
+    color: #111;
+}
+
+.cat-col a:hover {
+    text-decoration: underline;
+}
