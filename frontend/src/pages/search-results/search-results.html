@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/search-results/search-results.css">
+</head>
+<body>
+    <!-- Top Logo Bar -->
+    <header class="top-bar">
+        <div class="logo">SmartLib</div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+            <li><a href="../discover/discover.html">Discover</a></li>
+            <li><a href="../browse/browse.html">Catalog</a></li>
+            <li><a href="../user-library/user-library.html">My Library</a></li>
+            <li><a href="../profile/profile.html">My Profile</a></li>
+            <li><a href="../help/help.html">Help</a></li>
+        </ul>
+    </nav>
+
+    <!-- Red Search Bar Section -->
+    <section class="search-header">
+        <form class="search-box" action="search-results.html" method="GET">
+            <input type="text" name="query" placeholder="Title" required>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results-section">
+        <div class="results-header">
+            <h2>All Results</h2>
+            <p>1 - 10 of n results for "Title"</p>
+        </div>
+
+        <div class="results-container">
+            <!-- LEFT COLUMN -->
+            <div class="results-column">
+                <!-- Result Item -->
+                <div class="result-item">
+                    <div class="result-cover"></div>
+
+                    <div class="result-info">
+                        <span class="type-badge">Type</span>
+                        <h3>Title</h3>
+                        <p><strong>Edition</strong></p>
+                        <p>Author/s</p>
+                        <p>Publisher</p>
+                    </div>
+
+                    <a href="resource-details.html" class="details-btn">
+                        View Details
+                    </a>
+                </div>
+
+                <hr>
+
+                <!-- Duplicate this block for more results -->
+                <div class="result-item">
+                    <div class="result-cover"></div>
+
+                    <div class="result-info">
+                        <span class="type-badge">Type</span>
+                        <h3>Title</h3>
+                        <p><strong>Edition</strong></p>
+                        <p>Author/s</p>
+                        <p>Publisher</p>
+                    </div>
+
+                    <a href="resource-details.html" class="details-btn">
+                        View Details
+                    </a>
+                </div>
+            </div>
+
+            <!-- VERTICAL DIVIDER -->
+            <div class="vertical-divider"></div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="results-column">
+                <div class="result-item">
+                    <div class="result-cover"></div>
+
+                    <div class="result-info">
+                        <span class="type-badge">Type</span>
+                        <h3>Title</h3>
+                        <p><strong>Edition</strong></p>
+                        <p>Author/s</p>
+                        <p>Publisher</p>
+                    </div>
+
+                    <a href="resource-details.html" class="details-btn">
+                        View Details
+                    </a>
+                </div>
+
+                <hr>
+
+                <div class="result-item">
+                    <div class="result-cover"></div>
+
+                    <div class="result-info">
+                        <span class="type-badge">Type</span>
+                        <h3>Title</h3>
+                        <p><strong>Edition</strong></p>
+                        <p>Author/s</p>
+                        <p>Publisher</p>
+                    </div>
+
+                    <a href="resource-details.html" class="details-btn">
+                        View Details
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
