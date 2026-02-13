@@ -1,0 +1,243 @@
+/* Red Search Header */
+.search-header {
+    background: #c62828;
+    padding: 25px 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Search Box */
+.search-box {
+    display: flex;
+}
+
+.search-box input {
+    padding: 8px 256px 8px 16px;   /* reduced height */
+    border: none;
+    border-radius: 25px 0 0 25px;
+    outline: none;
+}
+
+.search-box button {
+    background-color: #f4b400;
+    border: none;
+    padding: 10px 24px;   /* reduced height */
+    border-radius: 0 25px 25px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ===== Details Area ===== */
+.details-area {
+    background: #8f1d1d; /* dark red section */
+    padding: 28px 90px 60px;
+    min-height: calc(100vh - 90px);
+}
+
+/* Back link */
+.back-link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 18px;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Layout */
+.details-layout {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* ===== Left side ===== */
+.details-left {
+    width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.big-cover {
+    width: 100%;
+    height: 520px;
+    background: #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+}
+
+/* Share link */
+.share-link {
+    margin-top: 18px;
+    color: #c62828;
+    text-decoration: underline;
+    font-weight: 700;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    background: transparent;
+}
+
+.share-icon {
+    font-size: 20px;
+}
+
+/* ===== Right side ===== */
+.details-right {
+    flex: 1;
+    color: #fff;
+    padding-top: 10px;
+}
+
+.resource-title {
+    font-size: 56px;
+    font-family: Georgia, serif;
+    margin: 0 0 10px;
+    line-height: 1;
+}
+
+.resource-edition {
+    font-size: 18px;
+    margin: 0 0 22px;
+    font-weight: 700;
+}
+
+.resource-meta p {
+    margin: 6px 0;
+    font-size: 14px;
+    opacity: 0.95;
+}
+
+/* ===== White Status Bar ===== */
+.status-bar {
+    margin-top: 22px;
+    background: #fff;
+    color: #c62828;
+    border-radius: 14px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.status-left {
+    font-weight: 800;
+}
+
+.status-mid {
+    margin-left: auto;
+    margin-right: 20px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #c62828;
+}
+
+/* Borrow button (outlined pill) */
+.borrow-btn {
+    text-decoration: none;
+    color: #c62828;
+    font-weight: 800;
+    border: 2px solid #c62828;
+    padding: 10px 26px;
+    border-radius: 30px;
+}
+
+.borrow-btn:hover {
+    background: #c62828;
+    color: #fff;
+}
+
+/* ===== Tabs Box ===== */
+.tabs-box {
+    margin-top: 18px;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    color: #111;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+}
+
+/* Tabs header */
+.tabs-header {
+    display: flex;
+    gap: 25px;
+    padding: 16px 22px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 18px;
+    color: #c62828;
+    padding: 0;
+}
+
+/* Active tab underline */
+.tab.active {
+    position: relative;
+}
+
+.tab.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 3px;
+    background: #c62828;
+    border-radius: 3px;
+}
+
+/* Tabs content */
+.tabs-body {
+    padding: 20px 22px 26px;
+    color: #333;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+/* Button container */
+.status-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Save Button (outlined style) */
+.save-btn {
+    text-decoration: none;
+    color: #c62828;
+    font-weight: 800;
+    border: 2px solid #c62828;
+    padding: 10px 26px;
+    border-radius: 30px;
+    transition: 0.2s ease;
+}
+
+.save-btn:hover {
+    background: #c62828;
+    color: #fff;
+}
+
+/* Borrow Button */
+.borrow-btn {
+    text-decoration: none;
+    color: #c62828;
+    font-weight: 800;
+    border: 2px solid #c62828;
+    padding: 10px 26px;
+    border-radius: 30px;
+    transition: 0.2s ease;
+}
+
+.borrow-btn:hover {
+    background: #c62828;
+    color: #fff;
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/resource-details/resource-details.css">
+</head>
+<body>
+    <!-- Top Logo Bar -->
+    <header class="top-bar">
+        <div class="logo">SmartLib</div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+            <li><a href="../discover/discover.html">Discover</a></li>
+            <li><a href="../catalog/catalog.html">Catalog</a></li>
+            <li><a href="../user-library/user-library.html">My Library</a></li>
+            <li><a href="../profile/profile.html">My Profile</a></li>
+            <li><a href="../help/help.html">Help</a></li>
+        </ul>
+    </nav>
+
+    <!-- Red Search Bar Section -->
+    <section class="search-header">
+        <form class="search-box" action="../search-results/search-results.html" method="GET">
+            <input type="text" name="query" placeholder="Title" required>
+            <button type="submit">Search</button>
+        </form>
+    </section>
+
+    <!-- Details Area (Dark Red Background) -->
+    <section class="details-area">
+        <a class="back-link" href="">‹ Back</a>
+
+        <div class="details-layout">
+            <!-- LEFT: Cover + Share -->
+            <div class="details-left">
+                <div class="big-cover"></div>
+
+                <a href="#" class="share-link" title="Share">
+                    <span class="share-icon">⤴</span>
+                    Share
+                </a>
+            </div>
+
+            <!-- RIGHT: Info + Bars + Tabs -->
+            <div class="details-right">
+                <h1 class="resource-title">Title</h1>
+                <p class="resource-edition">Edition</p>
+
+                <div class="resource-meta">
+                    <p>Author/s</p>
+                    <p>Publication Year</p>
+                    <p>Published by Publisher</p>
+                </div>
+
+                <!-- White Status Bar -->
+                <div class="status-bar">
+                    <div class="status-left">Type</div>
+
+                    <div class="status-mid">
+                        <span class="status-label">Availability Status</span>
+                    </div>
+
+                    <div class="status-actions">
+                        <a href="#" class="save-btn">Save</a>
+                        <a href="#" class="borrow-btn">Borrow</a>
+                    </div>
+                </div>
+
+                <!-- Tabs Box -->
+                <div class="tabs-box">
+                    <div class="tabs-header">
+                        <button class="tab active" type="button">Description</button>
+                        <button class="tab" type="button">Similar Resources</button>
+                    </div>
+
+                    <div class="tabs-body">
+                        <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
