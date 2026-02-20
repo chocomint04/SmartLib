@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLib - Profile</title>
+    <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/common/profile.css">
+</head>
+<body>
+
+    <!-- Top Logo Bar -->
+    <header class="top-bar">
+        <div class="logo">SmartLib</div>
+    </header>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <ul class="nav-links">
+            <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+            <li><a href="../discover/discover.html">Discover</a></li>
+            <li><a href="../catalog/catalog.html">Catalog</a></li>
+            <li><a href="../user-library/user-library.html">My Library</a></li>
+            <li><a href="../profile/profile.html" class="active">My Profile</a></li>
+            <li><a href="../help/help.html">Help</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="profile-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-links">
+                <li><a href="../profile/profile.html">Profile Overview</a></li>
+                <li><a href="../profile/edit_prof.html">Edit Profile &amp; Academic Interests</a></li>
+                <li><a href="#">Preferences and Recommendation Settings</a></li>
+                <li><a href="../profile/privacy_and_notif_settings.html" class="active">Privacy and Notification Settings</a></li>
+                <li><a href="../profile/reading_stats.html">Reading Statistics</a></li>
+            </ul>
+        </aside>
+
+        <!-- Settings Content -->
+        <section class="content">
+            <!-- Privacy Settings -->
+            <div class="settings-section">
+                <h2 class="settings-title">Privacy Settings</h2>
+                <div class="settings-list">
+                    <label class="setting-item">
+                        <input type="checkbox" checked>
+                        <span>Make my profile visible to other learners.</span>
+                    </label>
+                    <label class="setting-item">
+                        <input type="checkbox" checked>
+                        <span>Allow other learners to see my recently borrowed and read titles.</span>
+                    </label>
+                    <label class="setting-item">
+                        <input type="checkbox">
+                        <span>Display my academic interests on my public profile.</span>
+                    </label>
+                    <label class="setting-item">
+                        <input type="checkbox">
+                        <span>Use my reading history to provide personalized book recommendations.</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="settings-section">
+                <h2 class="settings-title">Notification Settings</h2>
+                <div class="settings-list">
+                    <label class="setting-item">
+                        <input type="checkbox" checked>
+                        <span>Notify me when a book is due within 48 hours.</span>
+                    </label>
+                    <label class="setting-item">
+                        <input type="checkbox">
+                        <span>Alert me when new books matching my academic interests are added.</span>
+                    </label>
+                    <label class="setting-item">
+                        <input type="checkbox">
+                        <span>Send an update when a reserved book is ready for pickup.</span>
+                    </label>
+                    <label class="setting-item">
+                        <input type="checkbox">
+                        <span>Receive monthly newsletters and library event announcements.</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
