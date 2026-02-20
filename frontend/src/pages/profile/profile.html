@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SmartLib - Profile</title>
     <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/common/profile.css">
 </head>
 <body>
+
     <!-- Top Logo Bar -->
     <header class="top-bar">
         <div class="logo">SmartLib</div>
@@ -19,9 +21,61 @@
             <li><a href="../discover/discover.html">Discover</a></li>
             <li><a href="../catalog/catalog.html">Catalog</a></li>
             <li><a href="../user-library/user-library.html">My Library</a></li>
-            <li><a href="../profile/profile.html">My Profile</a></li>
-            <li><a href="../help/help.html">Help</a></li>
+            <li><a href="../profile/profile.html" class="active">My Profile</a></li>
         </ul>
     </nav>
+
+    <!-- Main Content -->
+    <main class="profile-container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-links">
+                <li><a href="#" class="active">Profile Overview</a></li>
+                <li><a href="#">Edit Profile &amp; Academic Interests</a></li>
+                <li><a href="#">Preferences and Recommendation Settings</a></li>
+                <li><a href="#">Privacy and Notification Settings</a></li>
+                <li><a href="#">Reading Statistics</a></li>
+            </ul>
+        </aside>
+
+        <!-- Profile Content -->
+        <section class="profile-content">
+
+            <!-- User Info Card -->
+            <div class="user-info-card">
+                <div class="avatar-placeholder"></div>
+                <div class="user-details">
+                    <p class="detail-label">Name</p>
+                    <p class="detail-label">School ID / Course / Year</p>
+                    <p class="detail-label">Status</p>
+                </div>
+            </div>
+
+            <!-- Academic Interests -->
+            <div class="academic-interests">
+                <h2 class="section-title">Academic Interests</h2>
+                <div class="interest-cards">
+                    <div class="interest-card">
+                        <p class="interest-name">Cybersecurity</p>
+                        <p class="interest-count">7</p>
+                        <p class="interest-sub">Related books</p>
+                    </div>
+                    <div class="interest-card">
+                        <p class="interest-name">Numerical Methods</p>
+                        <p class="interest-count">2</p>
+                        <p class="interest-sub">Related books</p>
+                    </div>
+                    <div class="interest-card">
+                        <p class="interest-name">Operating Systems</p>
+                        <p class="interest-count">9</p>
+                        <p class="interest-sub">Related books</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
 </body>
 </html>
