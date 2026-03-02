@@ -1,17 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartLib — Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../../assets/css/login/login.css"/>
 </head>
-<body>
-    <!-- Top Logo Bar -->
-    <header class="top-bar">
-        <div class="logo">SmartLib</div>
-    </header>
 
-    
+<body>
+
+<div class="layout">
+
+  <!-- LEFT: Library visual -->
+  <div class="panel-left">
+    <img
+      src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=900&q=80"
+      alt="Library shelves"
+    />
+    <div class="panel-left-overlay"></div>
+    <div class="brand-text">
+      <span class="logo">SmartLib</span>
+      <h1>Find What You Need,<br/><em>Faster.</em></h1>
+      <p>Find the right books, journals, and research materials faster with smart recommendations designed around your academic journey.</p>
+    </div>
+  </div>
+
+  <!-- RIGHT: Form -->
+  <div class="panel-right">
+    <div class="form-card">
+      <div class="form-header">
+        <span class="ornament">❧</span>
+        <h2>Welcome Back</h2>
+        <p>Sign in to your institutional account</p>
+      </div>
+
+      <div class="divider"><span>continue</span></div>
+
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="email">Institutional Email</label>
+          <input type="email" id="email" placeholder="you@university.edu" autocomplete="email" required />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required />
+          <span class="field-icon" id="togglePwd" title="Show/hide password">👁</span>
+        </div>
+
+        <div class="row-meta">
+          <label class="checkbox-label">
+            <input type="checkbox" id="remember" />
+            Remember me
+          </label>
+          <a href="#" class="forgot">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn-signin" id="signInBtn">Sign In</button>
+      </form>
+
+      <p class="register-line">Not a Member? <a href="#">Create an Account</a></p>
+
+      <p class="terms">
+        By signing in, you agree to our
+        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
 </body>
 </html>
