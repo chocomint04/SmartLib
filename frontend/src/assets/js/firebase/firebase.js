@@ -21,6 +21,10 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
 const db = getFirestore(app);
-// export the initialized Firestore instance for page modules to use
-export { db };
+const auth = getAuth(app);
+
+// export the initialized Firestore and Auth instances for page modules to use
+export { db, auth };
