@@ -23,6 +23,7 @@
             <li><a href="../user-library/user-library.html">My Library</a></li>
             <li><a href="../profile/profile.html" class="active">My Profile</a></li>
             <li><a href="../help/help.html">Help</a></li>
+            <li><a href="../auth/logout.html">Log out</a></li>
         </ul>
     </nav>
 
@@ -46,19 +47,21 @@
                 <!-- Profile Picture and Input Fields -->
                 <div class="form-header">
                     <div class="profile-picture-section">
-                        <div class="profile-picture-placeholder">
+                        <label for="profilePicInput" class="profile-picture-placeholder" title="Click to choose photo">
                             <svg viewBox="0 0 24 24" width="48" height="48" fill="currentColor">
                                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
                             </svg>
-                        </div>
+                        </label>
+                        <input type="file" id="profilePicInput" accept="image/*" style="display:none" />
+                        <button type="button" id="choosePhotoBtn" class="btn-choose-photo">Choose Photo</button>
                     </div>
                     <div class="input-fields">
                         <input type="text" placeholder="Name" class="form-input">
                         <input type="text" placeholder="School ID / Course / Year" class="form-input">
                         <select class="form-input form-select">
                             <option>Status</option>
-                            <option>Active</option>
-                            <option>Inactive</option>
+                            <option>Student</option>
+                            <option>Admin</option>
                         </select>
                     </div>
                 </div>
@@ -99,6 +102,170 @@
             </div>
         </section>
     </main>
+
+<script>
+(function(){
+  const defaults = {
+    name: 'Farrah S. Batumbakal',
+    school: '2022156790 / Engineering / 2nd Year',
+    status: 'Student',
+    interests: [
+      {name: 'Engineering', count: 10},
+      {name: 'Programming Languages', count: 7},
+      {name: 'Foreign Language', count: 2}
+    ]
+  };
+
+  // list of all possible interests with associated counts
+  const interestOptions = [
+    {name: 'Engineering', count: 10},
+    {name: 'Programming Languages', count: 7},
+    {name: 'Nursing', count: 8},
+    {name: 'Foreign Languages', count: 2},
+    {name: 'Historical', count: 6},
+    {name: 'Filipiniana', count: 15}
+  ];
+
+  // form elements
+  const nameInput = document.querySelector('.input-fields input[placeholder="Name"]');
+  const schoolInput = document.querySelector('.input-fields input[placeholder="School ID / Course / Year"]');
+  const statusSelect = document.querySelector('.input-fields select');
+  const interestBoxes = document.querySelectorAll('.interest-box');
+
+  // populate with stored or defaults
+  nameInput.value = localStorage.getItem('name') || defaults.name;
+  schoolInput.value = localStorage.getItem('school') || defaults.school;
+  statusSelect.value = localStorage.getItem('status') || defaults.status;
+
+  const storedInterests = JSON.parse(localStorage.getItem('interests') || 'null') || defaults.interests;
+  interestBoxes.forEach((box, idx) => {
+    const select = box.querySelector('.interest-dropdown');
+    const placeholder = box.querySelector('.related-books-placeholder');
+
+    // populate dropdown with all options
+    select.innerHTML = '<option>Select Interest</option>' +
+      interestOptions.map(opt => '<option>' + opt.name + '</option>').join('');
+
+    // set previously chosen value if available
+    if (storedInterests[idx]) {
+      select.value = storedInterests[idx].name;
+      placeholder.textContent = storedInterests[idx].count;
+    }
+
+    // update count when user changes selection
+    select.addEventListener('change', () => {
+      const chosen = interestOptions.find(o => o.name === select.value);
+      placeholder.textContent = chosen ? chosen.count : '–';
+    });
+  });
+
+  document.querySelector('.btn-save').addEventListener('click', () => {
+    localStorage.setItem('name', nameInput.value);
+    localStorage.setItem('school', schoolInput.value);
+    localStorage.setItem('status', statusSelect.value);
+    // update interests counts/names from boxes
+    const newInts = [];
+    interestBoxes.forEach(box => {
+      const select = box.querySelector('.interest-dropdown');
+      const placeholder = box.querySelector('.related-books-placeholder');
+      // if user didn't choose anything, leave blank
+      if (select.value && select.value !== 'Select Interest') {
+        const chosen = interestOptions.find(o => o.name === select.value);
+        newInts.push({
+          name: select.value,
+          count: chosen ? chosen.count : placeholder.textContent
+        });
+      }
+    });
+    localStorage.setItem('interests', JSON.stringify(newInts));
+    // return to profile overview
+    window.location.href = 'profile.html';
+  });
+
+  document.querySelector('.btn-cancel').addEventListener('click', () => {
+    window.location.href = 'profile.html';
+  });
+
+  // profile picture preview
+  const picInput = document.getElementById('profilePicInput');
+  const picPlaceholder = document.querySelector('.profile-picture-placeholder');
+  let pickedPicData = null;               // store DataURL until save
+
+  picInput.addEventListener('change', () => {
+    const file = picInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const origDataUrl = e.target.result;
+        // create image element to resize
+        const img = new Image();
+        img.onload = () => {
+          const maxDim = 450; // max dimension to keep data small
+          let {width, height} = img;
+          if (width > height) {
+            height = Math.round((height / width) * maxDim);
+            width = maxDim;
+          } else {
+            width = Math.round((width / height) * maxDim);
+            height = maxDim;
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          const smallData = canvas.toDataURL('image/jpeg', 0.7);
+          pickedPicData = smallData;          // remember for save
+          picPlaceholder.style.backgroundImage = `url(${smallData})`;
+          picPlaceholder.style.backgroundSize = 'cover';
+          picPlaceholder.style.backgroundPosition = 'center';
+          // hide default svg icon if present
+          const svg = picPlaceholder.querySelector('svg');
+          if (svg) svg.style.display = 'none';
+        };
+        img.src = origDataUrl;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  // clicking button triggers file dialog as well
+  const chooseBtn = document.getElementById('choosePhotoBtn');
+  if (chooseBtn) {
+    chooseBtn.addEventListener('click', () => picInput.click());
+  }
+
+  // when save is clicked, also persist picture data if available
+  document.querySelector('.btn-save').addEventListener('click', () => {
+    if (pickedPicData) {
+      try {
+        localStorage.setItem('profilePic', pickedPicData);
+        console.log('saved profilePic, length', pickedPicData.length);
+      } catch(e) { console.warn('could not save picture', e); }
+    }
+    localStorage.setItem('name', nameInput.value);
+    localStorage.setItem('school', schoolInput.value);
+    localStorage.setItem('status', statusSelect.value);
+    // update interests counts/names from boxes
+    const newInts = [];
+    interestBoxes.forEach(box => {
+      const select = box.querySelector('.interest-dropdown');
+      const placeholder = box.querySelector('.related-books-placeholder');
+      // if user didn't choose anything, leave blank
+      if (select.value && select.value !== 'Select Interest') {
+        const chosen = interestOptions.find(o => o.name === select.value);
+        newInts.push({
+          name: select.value,
+          count: chosen ? chosen.count : placeholder.textContent
+        });
+      }
+    });
+    localStorage.setItem('interests', JSON.stringify(newInts));
+    // return to profile overview
+    window.location.href = 'profile.html';
+  });
+
+})();
+</script>
 
 </body>
 </html>

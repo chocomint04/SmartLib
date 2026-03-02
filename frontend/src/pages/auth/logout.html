@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartLib — Log out</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../../assets/css/common/navbar.css"/>
+  <link rel="stylesheet" href="../../assets/css/auth/logout.css"/>
+</head>
+<body>
+  <header class="top-bar">
+    <div class="logo">SmartLib</div>
+  </header>
+
+  <main class="logout-container">
+    <div class="logout-card">
+      <div class="logout-icon">
+        <!-- simple right arrow in circle -->
+        <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1 14l4-4-4-4v3H7v2h4v3z"/></svg>
+      </div>
+      <h2>Log out?</h2>
+      <p>You're about to sign out of your SmartLib account.<br/>Any unsaved changes may be lost.</p>
+      <hr>
+      <p class="signed-in">Signed in as <strong>fsbatumbakal@gmail.com</strong></p>
+      <div class="actions">
+        <button class="btn-cancel">Cancel</button>
+        <button class="btn-logout">Log out</button>
+      </div>
+      <p class="terms">By signing out, you agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+    </div>
+  </main>
+
+  <script>
+    // simple behaviour
+    document.querySelector('.btn-cancel').addEventListener('click', () => {
+      window.history.back();
+    });
+    document.querySelector('.btn-logout').addEventListener('click', () => {
+      // clear any stored session data if necessary
+      localStorage.clear();
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

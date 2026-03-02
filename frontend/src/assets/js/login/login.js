@@ -35,25 +35,25 @@ async function doSignIn(email, password, remember) {
   return result.user;
 }
 
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
   const email = emailInput.value.trim();
   const password = passwordInput.value;
   const remember = !!rememberBox && rememberBox.checked;
 
-  if (!email) {
-    emailInput.focus();
-    showToast('Please enter your institutional email.');
-    return;
-  }
+    if (!email) {
+      emailInput.focus();
+      showToast('Please enter your institutional email.');
+      return;
+    }
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    emailInput.focus();
-    showToast('Please enter a valid email address.');
-    return;
-  }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      emailInput.focus();
+      showToast('Please enter a valid email address.');
+      return;
+    }
 
   if (!password) {
     passwordInput.focus();

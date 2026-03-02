@@ -51,6 +51,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between; /* push interests down */
     gap: 24px;
 }
 
@@ -62,11 +63,43 @@
 }
 
 .avatar-placeholder {
-    width: 90px;
-    height: 90px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     background-color: #fff;
     flex-shrink: 0;
+}
+/* for edit form: position container relative so button can be centered */
+.profile-picture-section {
+    position: relative;
+    display: inline-block;
+}
+
+.btn-choose-photo {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, 8px);
+    padding: 10px 30px;     /* wider padding to keep text on one line */
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;    /* prevent wrapping */
+    background: #F5C518; /* yellow */
+    color: #111;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.btn-choose-photo:hover {
+    background: #e5b00f;
+    transform: translate(-50%, 6px);
+}
+.user-details .detail-label {
+    font-size: 2.1rem; /* larger text */
 }
 
 .user-details {
@@ -77,7 +110,7 @@
 
 .user-details .detail-label {
     color: #fff;
-    font-size: 0.9rem;
+    /* font-size removed to allow earlier larger size */
     font-weight: 400;
 }
 
