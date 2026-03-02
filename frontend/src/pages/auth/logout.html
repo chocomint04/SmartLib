@@ -31,16 +31,7 @@
     </div>
   </main>
 
-  <script>
-    // simple behaviour
-    document.querySelector('.btn-cancel').addEventListener('click', () => {
-      window.history.back();
-    });
-    document.querySelector('.btn-logout').addEventListener('click', () => {
-      // clear any stored session data if necessary
-      localStorage.clear();
-      window.location.href = 'login.html';
-    });
-  </script>
+  <script type="module" src="../../assets/js/firebase/firebase.js"></script>
+  <script type="module" src="../../assets/js/logout/logout.js"></script>
 </body>
 </html>
