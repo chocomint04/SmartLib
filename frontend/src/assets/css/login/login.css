@@ -214,6 +214,8 @@ html, body {
   font-size: 0.9rem;
   cursor: pointer;
   user-select: none;
+  z-index: 1;          /* ensure icon sits above the input */
+  pointer-events: auto;/* make sure clicks reach the icon */
 }
 
 .row-meta {

@@ -1,0 +1,82 @@
+/* styles for logout confirmation page */
+html, body {
+  height: 100%;
+  margin:0;
+  font-family: 'Crimson Pro', serif;
+  background:#f5f5f5;
+  color:#333;
+  overflow: hidden; /* disable scrolling */
+}
+
+/* make header light instead of default dark */
+.top-bar {
+  background-color: #fff;
+}
+
+.top-bar .logo {
+  color: #111;
+}.logout-container {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+  padding:24px;
+}
+.logout-card {
+  background:#fff;
+  border-radius:24px;
+  max-width:420px;
+  width:100%;
+  padding:26px 24px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  text-align:center;
+}
+.logout-card h2 {
+  margin-top:16px;
+  font-size:1.6rem;
+  font-weight:700;
+}
+.logout-card p {
+  font-size:0.9rem;
+  line-height:1.5;
+  color:#555;
+}
+.logout-card hr {
+  margin:24px 0;
+  border:none;
+  border-top:1px solid #ddd;
+}
+.logout-card .signed-in {
+  font-size:0.85rem;
+  margin-bottom:24px;
+}
+.logout-card .actions {
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  margin-bottom:18px;
+}
+.logout-card .actions .btn-cancel {
+  background:#e0e0e0;
+  color:#333;
+}
+.logout-card .actions .btn-cancel:hover {
+  background:#ccc;
+}
+.logout-card .actions .btn-logout {
+  background:#a5b675;
+  color:#111;
+}
+.logout-card .actions .btn-logout:hover {
+  background:#94a35c;
+}
+.logout-card .terms {
+  font-size:0.65rem;
+  color:#999;
+}
+.logout-icon {
+  font-size:48px;
+  color:#999;
+}
+.logout-icon svg {width:48px;height:48px;}
+.logout-icon path {fill:#999;}
