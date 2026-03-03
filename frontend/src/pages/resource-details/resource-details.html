@@ -18,10 +18,11 @@
         <ul class="nav-links">
             <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
             <li><a href="../discover/discover.html">Discover</a></li>
-            <li><a href="../catalog/catalog.html">Catalog</a></li>
+            <li><a href="../catalog/catalog.html" class="active">Catalog</a></li>
             <li><a href="../user-library/user-library.html">My Library</a></li>
             <li><a href="../profile/profile.html">My Profile</a></li>
             <li><a href="../help/help.html">Help</a></li>
+            <li><a href="../auth/logout.html">Log out</a></li>
         </ul>
     </nav>
 
@@ -33,63 +34,72 @@
         </form>
     </section>
 
-    <!-- Details Area (Dark Red Background) -->
-    <section class="details-area">
-        <a class="back-link" href="#" onclick="history.back(); return false">‹ Back</a>
+    <div class="details-content-area">
+        <!-- Details Area (Dark Red Background) -->
+        <section class="details-area">
+            <a class="back-link" href="#" onclick="history.back(); return false">‹ Back</a>
 
-        <div class="details-layout">
-            <!-- LEFT: Cover + Share -->
-            <div class="details-left">
-                <div class="big-cover"></div>
+            <div class="details-layout">
+                <!-- LEFT: Cover + Share -->
+                <div class="details-left">
+                    <div class="big-cover"></div>
 
-                <a href="#" class="share-link" title="Share" onclick="return false">
-                    <span class="share-icon">⤴</span>
-                    Share
-                </a>
+                    <a href="#" class="share-link" title="Share" onclick="return false">
+                        <span class="share-icon">⤴</span>
+                        Share
+                    </a>
+                </div>
+
+                <!-- RIGHT: Info + Bars + Tabs -->
+                <div class="details-right">
+                    <h1 class="resource-title">Title</h1>
+                    <p class="resource-edition">Year</p>
+
+                    <div class="resource-meta">
+                        <p>Author/s</p>
+                        <p>Program</p>
+                    </div>
+
+                    <!-- White Status Bar -->
+                    <div class="status-bar">
+                        <div class="status-left">Type</div>
+
+                        <div class="status-mid">
+                            <span class="status-label">Availability Status</span>
+                        </div>
+
+                        <div class="status-actions">
+                            <a href="#" class="save-btn">Save</a>
+                            <a href="#" class="borrow-btn">Borrow</a>
+                        </div>
+                    </div>
+
+                    <!-- Tabs Box -->
+                    <div class="tabs-box">
+                        <div class="tabs-header">
+                            <button class="tab active" type="button">Description</button>
+                            <button class="tab" type="button">Similar Resources</button>
+                        </div>
+
+                        <div class="tabs-body">
+                            <p>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+                            exercitation ullamco laboris nisi ut aliquip ex...
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </section>
 
-            <!-- RIGHT: Info + Bars + Tabs -->
-            <div class="details-right">
-                <h1 class="resource-title">Title</h1>
-                <p class="resource-edition">Year</p>
-
-                <div class="resource-meta">
-                    <p>Author/s</p>
-                    <p>Program</p>
-                </div>
-
-                <!-- White Status Bar -->
-                <div class="status-bar">
-                    <div class="status-left">Type</div>
-
-                    <div class="status-mid">
-                        <span class="status-label">Availability Status</span>
-                    </div>
-
-                    <div class="status-actions">
-                        <a href="#" class="save-btn">Save</a>
-                        <a href="#" class="borrow-btn">Borrow</a>
-                    </div>
-                </div>
-
-                <!-- Tabs Box -->
-                <div class="tabs-box">
-                    <div class="tabs-header">
-                        <button class="tab active" type="button">Description</button>
-                        <button class="tab" type="button">Similar Resources</button>
-                    </div>
-
-                    <div class="tabs-body">
-                        <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                        exercitation ullamco laboris nisi ut aliquip ex...
-                        </p>
-                    </div>
-                </div>
+        <div id="resourceDetailsLoading" class="resource-loading-overlay" aria-live="polite" aria-busy="true">
+            <div class="resource-loading-content">
+                <div class="resource-spinner" aria-hidden="true"></div>
+                <p>Loading resource details...</p>
             </div>
         </div>
-    </section>
+    </div>
     <script type="module" src="../../assets/js/firebase/firebase.js"></script>
     <script type="module" src="../../assets/js/resource-details/resource-details.js"></script>
   <script type="module" src="../../assets/js/auth/authGuard.js"></script>

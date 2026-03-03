@@ -1,6 +1,14 @@
 import { db, auth } from "../firebase/firebase.js";
 import { doc, getDoc, collection, addDoc, deleteDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
+const loadingOverlay = document.getElementById('resourceDetailsLoading');
+
+function setLoadingOverlay(visible) {
+    if(!loadingOverlay) return;
+    loadingOverlay.classList.toggle('hidden', !visible);
+    loadingOverlay.setAttribute('aria-busy', visible ? 'true' : 'false');
+}
+
 function safeText(v){ return v?String(v):'' }
 
 function getCoverUrl(data) {
@@ -16,6 +24,7 @@ function getCoverUrl(data) {
 }
 
 async function loadResource(){
+    setLoadingOverlay(true);
     const params = new URLSearchParams(location.search);
     let docId = params.get('doc');
     const accession = params.get('accession');
@@ -142,6 +151,8 @@ async function loadResource(){
 
     }catch(err){
         console.error('Error loading resource', err);
+    }finally{
+        setLoadingOverlay(false);
     }
 }
 
