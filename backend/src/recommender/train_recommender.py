@@ -1,5 +1,7 @@
 import argparse
 import re
+from pathlib import Path
+
 import joblib
 import numpy as np
 import pandas as pd
@@ -39,11 +41,25 @@ def build_combined_text(df: pd.DataFrame) -> pd.Series:
 def train(csv_path: str, out_path: str, max_features: int = 30000, ngram_max: int = 2) -> None:
     df = pd.read_csv(csv_path)
 
+    required_cols = ["title_of_material", "program", "collection", "description", "accession_no"]
+    missing_required = [col for col in required_cols if col not in df.columns]
+    if missing_required:
+        joined = ", ".join(missing_required)
+        raise ValueError(
+            f"Training CSV is missing required columns: {joined}. "
+            "Use backend/src/recommender/catalog.csv or a CSV with the same schema."
+        )
+
     # Keep a clean copy of metadata for display
     meta = df.copy()
 
+    # Normalize key metadata fields that recommender output relies on.
+    for col in ["title_of_material", "program", "collection", "description", "accession_no", "author", "isbn"]:
+        if col in meta.columns:
+            meta[col] = meta[col].fillna("").astype(str).str.strip()
+
     # Handle NaNs safely
-    for col in ["collection", "title_of_material", "program", "description"]:
+    for col in ["collection", "title_of_material", "program", "description", "author"]:
         if col in df.columns:
             df[col] = df[col].fillna("")
 
@@ -78,7 +94,7 @@ def train(csv_path: str, out_path: str, max_features: int = 30000, ngram_max: in
         "tfidf_matrix": tfidf_matrix,      # sparse matrix
         "sim_matrix": sim_matrix,          # numpy array
         "title_to_index": title_to_index,  # dict
-        "version": "1.0"
+        "version": "1.1"
     }
 
     joblib.dump(bundle, out_path)
@@ -87,9 +103,21 @@ def train(csv_path: str, out_path: str, max_features: int = 30000, ngram_max: in
 
 
 def main():
+    script_dir = Path(__file__).resolve().parent
+    default_csv = (script_dir / "catalog.csv").resolve()
+    default_out = (script_dir / "recommender.joblib").resolve()
+
     parser = argparse.ArgumentParser(description="Train and export a content-based recommender from a CSV.")
-    parser.add_argument("--csv", required=True, help="Path to resources.csv")
-    parser.add_argument("--out", default="recommender.joblib", help="Output model bundle path")
+    parser.add_argument(
+        "--csv",
+        default=str(default_csv),
+        help="Path to training CSV (defaults to backend/src/recommender/catalog.csv)",
+    )
+    parser.add_argument(
+        "--out",
+        default=str(default_out),
+        help="Output model bundle path (defaults to backend/src/recommender/recommender.joblib)",
+    )
     parser.add_argument("--max_features", type=int, default=30000, help="Max TF-IDF vocabulary size")
     parser.add_argument("--ngram_max", type=int, default=2, help="Max n-gram size (1 or 2 usually)")
 

@@ -37,102 +37,112 @@
         </div>
     </section>
 
-    <!-- Explore Section -->
-    <section class="explore-section">
-        <h2>Explore What’s Available</h2>
+    <div class="discover-content-area">
+        <!-- Explore Section -->
+        <section class="explore-section">
+            <h2>Explore What’s Available</h2>
 
-        <div class="featured-wrapper">
-            <!-- Featured Cards -->
-            <div class="featured-cards">
-                <div class="featured-card">
-                    <div class="featured-img"></div>
-                    <div class="featured-content">
-                        <span>Highly recommended for you</span>
-                        <h3>Title</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <button class="details-btn">View Details</button>
+            <div class="featured-wrapper">
+                <!-- Featured Cards -->
+                <div class="featured-cards">
+                    <div class="featured-card">
+                        <div class="featured-img"></div>
+                        <div class="featured-content">
+                            <span>Highly recommended for you</span>
+                            <h3>Title</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <button class="details-btn">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="featured-card">
+                        <div class="featured-img"></div>
+                        <div class="featured-content">
+                            <span>Highly recommended for you</span>
+                            <h3>Title</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <button class="details-btn">View Details</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="featured-card">
-                    <div class="featured-img"></div>
-                    <div class="featured-content">
-                        <span>Highly recommended for you</span>
-                        <h3>Title</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <button class="details-btn">View Details</button>
+                <!-- Trending Sidebar -->
+                <div class="trending-side">
+                    <div class="trending-header">
+                        <h3>See what’s trending</h3>
+                        <a href="trending.html" class="view-all">View All</a>
+                    </div>
+
+                    <div class="trend-item">
+                        <div class="trend-img"></div>
+                        <div>
+                            <strong>Title</strong>
+                            <p>Author</p>
+                        </div>
+                    </div>
+
+                    <div class="trend-item">
+                        <div class="trend-img"></div>
+                        <div>
+                            <strong>Title</strong>
+                            <p>Author</p>
+                        </div>
+                    </div>
+
+                    <div class="trend-item">
+                        <div class="trend-img"></div>
+                        <div>
+                            <strong>Title</strong>
+                            <p>Author</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Trending Sidebar -->
-            <div class="trending-side">
-                <div class="trending-header">
-                    <h3>See what’s trending</h3>
-                    <a href="trending.html" class="view-all">View All</a>
-                </div>
+        <!-- Recommended & Trending Bottom -->
+        <section class="bottom-section">
+            <div class="bottom-wrapper">
+                <div class="recommended">
+                    <div class="section-header">
+                        <h3>Recommended for you</h3>
+                        <a href="recommended.html" class="arrow-btn">➜</a>
+                    </div>
 
-                <div class="trend-item">
-                    <div class="trend-img"></div>
-                    <div>
-                        <strong>Title</strong>
-                        <p>Author</p>
+                    <div class="card-row">
+                        <div class="book-card"></div>
+                        <div class="book-card"></div>
+                        <div class="book-card"></div>
+                        <div class="book-card"></div>
                     </div>
                 </div>
 
-                <div class="trend-item">
-                    <div class="trend-img"></div>
-                    <div>
-                        <strong>Title</strong>
-                        <p>Author</p>
-                    </div>
-                </div>
+                <div class="divider"></div>
 
-                <div class="trend-item">
-                    <div class="trend-img"></div>
-                    <div>
-                        <strong>Title</strong>
-                        <p>Author</p>
+                <div class="trending">
+                    <div class="section-header">
+                        <h3>Trending</h3>
+                        <a href="trending.html" class="arrow-btn">➜</a>
+                    </div>
+
+                    <div class="card-row">
+                        <div class="book-card"></div>
+                        <div class="book-card"></div>
+                        <div class="book-card"></div>
+                        <div class="book-card"></div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <div id="discoverLoading" class="discover-loading-overlay" aria-live="polite" aria-busy="true">
+            <div class="discover-loading-content">
+                <div class="discover-spinner" aria-hidden="true"></div>
+                <p>Loading discover content...</p>
             </div>
         </div>
-    </section>
-
-    <!-- Recommended & Trending Bottom -->
-    <section class="bottom-section">
-        <div class="bottom-wrapper">
-            <div class="recommended">
-                <div class="section-header">
-                    <h3>Recommended for you</h3>
-                    <a href="recommended.html" class="arrow-btn">➜</a>
-                </div>
-
-                <div class="card-row">
-                    <div class="book-card"></div>
-                    <div class="book-card"></div>
-                    <div class="book-card"></div>
-                    <div class="book-card"></div>
-                </div>
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="trending">
-                <div class="section-header">
-                    <h3>Trending</h3>
-                    <a href="trending.html" class="arrow-btn">➜</a>
-                </div>
-
-                <div class="card-row">
-                    <div class="book-card"></div>
-                    <div class="book-card"></div>
-                    <div class="book-card"></div>
-                    <div class="book-card"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-  <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    </div>
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script type="module" src="../../assets/js/discover/discover.js"></script>
 </body>
 </html>
