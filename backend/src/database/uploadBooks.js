@@ -9,21 +9,20 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-// allow documents to omit fields instead of throwing errors when undefined
-// see https://firebase.google.com/docs/reference/node/firebase.firestore.Settings
-if (db && typeof db.settings === 'function') {
-  db.settings({ ignoreUndefinedProperties: true });
-}
 
 async function uploadCSV() {
   const books = [];
 
   fs.createReadStream("catalog.csv")
-    .pipe(csv())
+    // trim headers and remove any BOM/whitespace that might be included in the CSV file
+    .pipe(csv({
+      mapHeaders: ({ header }) => header.trim()
+    }))
     .on("data", (row) => {
       // Map fields from the provided catalog.csv structure and provide defaults
+      // always fall back to an empty string before calling trim()
       const book = {
-        collection: (row["collection"] || row.collection),
+        collection: (row["collection"] || row.collection).trim(),
         call_number: (row["call_number"] || "").trim(),
         author: (row["author"] || "").trim(),
         title_of_material: (row["title_of_material"] || "").trim(),
