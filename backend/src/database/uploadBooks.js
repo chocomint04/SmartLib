@@ -28,6 +28,7 @@ async function uploadCSV() {
         title_of_material: (row["title_of_material"] || "").trim(),
         year: Number(row["year"]) || 0,
         isbn: (row["isbn"] || "").trim(),
+        dr_no: (row["dr_no"] || "").trim(),
         program: (row["program"] || "").trim(),
         accession_no: (row["accession_no"] || "").trim(),
         date_in_alma: row["date_in_alma"] || "",
