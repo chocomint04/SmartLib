@@ -68,12 +68,19 @@
     background: #ddd;
     border-radius: 8px;
     box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    overflow: hidden;
+}
+
+.big-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Share link */
 .share-link {
     margin-top: 18px;
-    color: #c62828;
+    color: #fff;
     text-decoration: underline;
     font-weight: 700;
     display: inline-flex;
@@ -84,6 +91,7 @@
 
 .share-icon {
     font-size: 20px;
+    color: #fff;
 }
 
 /* ===== Right side ===== */
@@ -219,6 +227,8 @@
     padding: 10px 26px;
     border-radius: 30px;
     transition: 0.2s ease;
+    background: transparent;
+    cursor: pointer;
 }
 
 .save-btn:hover {

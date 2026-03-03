@@ -35,14 +35,14 @@
 
     <!-- Details Area (Dark Red Background) -->
     <section class="details-area">
-        <a class="back-link" href="">‹ Back</a>
+        <a class="back-link" href="#" onclick="history.back(); return false">‹ Back</a>
 
         <div class="details-layout">
             <!-- LEFT: Cover + Share -->
             <div class="details-left">
                 <div class="big-cover"></div>
 
-                <a href="#" class="share-link" title="Share">
+                <a href="#" class="share-link" title="Share" onclick="return false">
                     <span class="share-icon">⤴</span>
                     Share
                 </a>
@@ -51,12 +51,11 @@
             <!-- RIGHT: Info + Bars + Tabs -->
             <div class="details-right">
                 <h1 class="resource-title">Title</h1>
-                <p class="resource-edition">Edition</p>
+                <p class="resource-edition">Year</p>
 
                 <div class="resource-meta">
                     <p>Author/s</p>
-                    <p>Publication Year</p>
-                    <p>Published by Publisher</p>
+                    <p>Program</p>
                 </div>
 
                 <!-- White Status Bar -->

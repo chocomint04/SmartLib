@@ -13,26 +13,26 @@ async function loadCategories(){
     try{
         const snap = await getDocs(collection(db, 'resources'));
         const counts = {};
-        const categories = new Set();
+        const programs = new Set();
         snap.forEach(d => {
             const data = d.data();
-            const cat = data.category || 'Uncategorized';
-            categories.add(cat);
-            counts[cat] = (counts[cat] || 0) + 1;
+            const prog = data.program || 'Uncategorized';
+            programs.add(prog);
+            counts[prog] = (counts[prog] || 0) + 1;
         });
 
         const top = Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8);
-        featuredGrid.innerHTML = top.map(([cat,cnt]) => `
-            <a class="category-card" href="category.html?category=${encodeURIComponent(cat)}">
-                <h3>${humanize(cat)}</h3>
+        featuredGrid.innerHTML = top.map(([prog,cnt]) => `
+            <a class="category-card" href="category.html?program=${encodeURIComponent(prog)}">
+                <h3>${humanize(prog)}</h3>
                 <p>${cnt} books</p>
             </a>
         `).join('');
 
-        const cats = Array.from(categories).sort();
+        const cats = Array.from(programs).sort();
         const cols = [[],[],[],[]];
         cats.forEach((c,i)=> cols[i%4].push(c));
-        allCategoriesGrid.innerHTML = cols.map(col=>`<div class="cat-col">${col.map(c=>`<a href="category.html?category=${encodeURIComponent(c)}">${humanize(c)}</a>`).join('')}</div>`).join('');
+        allCategoriesGrid.innerHTML = cols.map(col=>`<div class="cat-col">${col.map(c=>`<a href="category.html?program=${encodeURIComponent(c)}">${humanize(c)}</a>`).join('')}</div>`).join('');
     }catch(err){
         console.error('Error loading categories', err);
     }

@@ -40,7 +40,7 @@
 
 /* Results Section */
 .category-results {
-    padding: 32px 64px;
+    padding: 32px 256px; /* larger side margins for readability */
 }
 
 /* Title Area */
@@ -74,17 +74,19 @@
 
 /* Results Layout */
 .results-container {
+    /* one-column list instead of two */
     display: flex;
-    gap: 40px;
+    flex-direction: column;
 }
 
 .results-column {
-    flex: 1;
+    /* columns are no longer used but keep class for backwards compatibility */
+    width: 100%;
 }
 
+/* hide divider now that there is only one column */
 .vertical-divider {
-    width: 1px;
-    background: #999;
+    display: none;
 }
 
 /* Result Item */
@@ -93,6 +95,12 @@
     gap: 25px;
     padding: 20px 0;
     align-items: flex-start;
+}
+
+/* make info area flexible so long titles wrap instead of pushing other elements */
+.result-info {
+    flex: 1;
+    min-width: 0; /* allow shrinking inside flex container */
 }
 
 .result-cover {
@@ -106,6 +114,8 @@
 .result-info h3 {
     font-size: 22px;
     margin: 10px 0;
+    max-width: 100%;
+    word-wrap: break-word;
 }
 
 .result-info p {
