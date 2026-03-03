@@ -7,9 +7,6 @@ serviceAccountKey.json
 package-lock.json
 package.json
 
-hardsign.js
-hardlog.js
-
 # Node modules
 node_modules/
 
