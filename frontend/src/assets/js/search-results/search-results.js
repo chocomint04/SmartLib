@@ -1,5 +1,5 @@
-import { db } from "../firebase/firebase.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { db, auth } from "../firebase/firebase.js";
+import { collection, getDocs, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const container = document.getElementById('resultsContainer');
 const leftCol = document.getElementById('resultsColumnLeft') || (container ? container.querySelector('.results-column') : null);
@@ -39,6 +39,36 @@ function getCoverUrl(data){
     return cover.startsWith('//') ? 'https:' + cover : cover;
 }
 
+function getCurrentUserId(){
+    if(auth && auth.currentUser && auth.currentUser.uid) return auth.currentUser.uid;
+    try{
+        const raw = localStorage.getItem('user');
+        if(!raw) return '';
+        const parsed = JSON.parse(raw);
+        return parsed && parsed.uid ? String(parsed.uid) : '';
+    }catch(_){
+        return '';
+    }
+}
+
+async function recordSearchQuery(rawQuery){
+    const queryText = String(rawQuery || '').trim();
+    if(!queryText) return;
+
+    const userId = getCurrentUserId();
+    if(!userId) return;
+
+    try{
+        await addDoc(collection(db, 'search_history'), {
+            user_id: userId,
+            search_query: queryText,
+            search_date: serverTimestamp()
+        });
+    }catch(err){
+        console.error('Error recording search history', err);
+    }
+}
+
 function renderItem(doc){
     const d = doc.data();
     const img = getCoverUrl(d);
@@ -71,6 +101,9 @@ async function doSearch(){
     const resultsHeader = document.querySelector('.result-count') || document.querySelector('.results-header p');
     const searchInput = document.querySelector('.search-box input[name="query"]');
     if(searchInput) searchInput.value = rawQuery;
+
+    await recordSearchQuery(rawQuery);
+
     try{
         const snap = await getDocs(collection(db,'resources'));
         const docs = [];
