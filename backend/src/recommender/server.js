@@ -62,6 +62,16 @@ function parseGeneratedRecommendationsRequest(req) {
   };
 }
 
+function isQuotaExceededError(error) {
+  const details = String((error && error.message) || "").toLowerCase();
+  return (
+    details.includes("quota exceeded")
+    || details.includes("resource_exhausted")
+    || details.includes("statuscode.resource_exhausted")
+    || details.includes("429")
+  );
+}
+
 async function runPythonRecommender(userId, options) {
   const scriptPath = path.join(__dirname, "recommender.py");
   const bundlePath = path.join(__dirname, "recommender.joblib");
@@ -199,6 +209,23 @@ app.post("/recommendations/:userId/generate", async (req, res) => {
   }
 
   const options = parseGeneratedRecommendationsRequest(req);
+  const forceRegenerate = String(req.query.force || "").toLowerCase() === "true";
+
+  try {
+    const cachedRecommendations = await getStoredRecommendations(userId, options.topK);
+    if (!forceRegenerate && cachedRecommendations.length > 0) {
+      res.json({
+        user_id: userId,
+        generated: false,
+        from_cache: true,
+        count: cachedRecommendations.length,
+        recommendations: cachedRecommendations,
+      });
+      return;
+    }
+  } catch (_cacheErr) {
+    // Continue to generation flow if cache read fails.
+  }
 
   try {
     const recommendations = await runPythonRecommender(userId, options);
@@ -212,6 +239,24 @@ app.post("/recommendations/:userId/generate", async (req, res) => {
     });
   } catch (error) {
     console.error("Recommendation generation error:", error);
+
+    if (isQuotaExceededError(error)) {
+      try {
+        const cachedRecommendations = await getStoredRecommendations(userId, options.topK);
+        res.status(200).json({
+          user_id: userId,
+          generated: false,
+          from_cache: true,
+          quota_exceeded: true,
+          count: cachedRecommendations.length,
+          recommendations: cachedRecommendations,
+        });
+        return;
+      } catch (_fallbackErr) {
+        // Fall through to standard error response.
+      }
+    }
+
     res.status(500).json({
       error: "Failed to generate and store recommendations",
       details: error && error.message ? error.message : "Unknown error",
