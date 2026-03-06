@@ -1,5 +1,5 @@
 import { db, auth } from "../firebase/firebase.js";
-import { doc, getDoc, collection, addDoc, deleteDoc, getDocs, query, where, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { doc, getDoc, collection, addDoc, deleteDoc, getDocs, query, where, serverTimestamp, updateDoc, limit, runTransaction } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
 const loadingOverlay = document.getElementById('resourceDetailsLoading');
 
@@ -10,6 +10,11 @@ function setLoadingOverlay(visible) {
 }
 
 function safeText(v){ return v?String(v):'' }
+
+function formatStatus(status) {
+    const text = safeText(status || 'Unknown');
+    return text ? text.charAt(0).toUpperCase() + text.slice(1).toLowerCase() : 'Unknown';
+}
 
 function getCoverUrl(data) {
     if (data.isbn) {
@@ -58,6 +63,12 @@ async function loadResource(){
         const statusLabel = document.querySelector('.status-label');
         const typeLeftEl = document.querySelector('.status-left');
         const saveBtn = document.querySelector('.save-btn');
+        const borrowBtn = document.querySelector('.borrow-btn');
+        const accessionNo = safeText(data.accession_no || accession || '');
+        const userId = auth && auth.currentUser ? auth.currentUser.uid : null;
+        let activeBorrowRequestDocId = null;
+        let currentAvailabilityStatus = safeText(data.availability_status || 'Unknown').toLowerCase();
+        let borrowActionInFlight = false;
 
         const img = getCoverUrl(data);
         if(coverEl){
@@ -76,8 +87,7 @@ async function loadResource(){
         if(typeLeftEl) typeLeftEl.textContent = safeText(data.collection || 'Unknown');
         
         // Capitalize availability status
-        const status = safeText(data.availability_status || 'Unknown');
-        if(statusLabel) statusLabel.textContent = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
+        if(statusLabel) statusLabel.textContent = formatStatus(currentAvailabilityStatus);
         
         // description content - show "Description not available." if empty
         const tabsBody = document.querySelector('.tabs-body');
@@ -100,7 +110,7 @@ async function loadResource(){
                 const savedQuery = query(
                     collection(db, 'saved_resources'),
                     where('user_id', '==', auth.currentUser.uid),
-                    where('accession_no', '==', data.accession_no || '')
+                    where('accession_no', '==', accessionNo)
                 );
                 const savedSnap = await getDocs(savedQuery);
                 if(!savedSnap.empty) {
@@ -134,7 +144,7 @@ async function loadResource(){
                         // Save
                         const docRef = await addDoc(collection(db, 'saved_resources'), {
                             user_id: auth.currentUser.uid,
-                            accession_no: data.accession_no || '',
+                            accession_no: accessionNo,
                             saved_date: serverTimestamp()
                         });
                         alert('Resource saved!');
@@ -145,6 +155,128 @@ async function loadResource(){
                 } catch(err) {
                     console.error('Error toggling save:', err);
                     alert('Operation failed.');
+                }
+            });
+        }
+
+        if (borrowBtn) {
+            const setBorrowButtonState = (label, disabled) => {
+                borrowBtn.textContent = label;
+                borrowBtn.classList.toggle('disabled', disabled);
+                borrowBtn.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+            };
+
+            const refreshBorrowState = () => {
+                if (borrowActionInFlight) {
+                    setBorrowButtonState('Processing...', true);
+                    return;
+                }
+                if (!userId || !accessionNo) {
+                    setBorrowButtonState('Borrow', true);
+                    return;
+                }
+                if (activeBorrowRequestDocId) {
+                    setBorrowButtonState('Cancel Borrow', false);
+                    return;
+                }
+                setBorrowButtonState('Borrow', currentAvailabilityStatus !== 'available');
+            };
+
+            if (userId && accessionNo) {
+                const activeRequestQuery = query(
+                    collection(db, 'borrowing_transactions'),
+                    where('user_id', '==', userId),
+                    where('accession_no', '==', accessionNo),
+                    where('status', '==', 'requested'),
+                    limit(1)
+                );
+                const activeRequestSnap = await getDocs(activeRequestQuery);
+                if (!activeRequestSnap.empty) {
+                    activeBorrowRequestDocId = activeRequestSnap.docs[0].id;
+                }
+            }
+
+            refreshBorrowState();
+
+            borrowBtn.addEventListener('click', async (e) => {
+                e.preventDefault();
+
+                if (!auth || !auth.currentUser) {
+                    alert('Please log in to borrow resources.');
+                    return;
+                }
+                if (!accessionNo || borrowActionInFlight) {
+                    return;
+                }
+                if (!activeBorrowRequestDocId && currentAvailabilityStatus !== 'available') {
+                    return;
+                }
+
+                const resourceRef = doc(db, 'resources', docId);
+
+                try {
+                    borrowActionInFlight = true;
+                    refreshBorrowState();
+
+                    if (activeBorrowRequestDocId) {
+                        const borrowRef = doc(db, 'borrowing_transactions', activeBorrowRequestDocId);
+
+                        await runTransaction(db, async (transaction) => {
+                            const resourceSnap = await transaction.get(resourceRef);
+                            const borrowSnap = await transaction.get(borrowRef);
+
+                            if (!resourceSnap.exists()) {
+                                throw new Error('Resource not found.');
+                            }
+                            if (!borrowSnap.exists()) {
+                                throw new Error('Borrow request not found.');
+                            }
+
+                            transaction.update(resourceRef, { availability_status: 'available' });
+                            transaction.update(borrowRef, { status: 'cancelled' });
+                        });
+
+                        activeBorrowRequestDocId = null;
+                        currentAvailabilityStatus = 'available';
+                        if (statusLabel) statusLabel.textContent = formatStatus(currentAvailabilityStatus);
+                        alert('Borrow request cancelled.');
+                    } else {
+                        let newBorrowRequestRef = null;
+
+                        await runTransaction(db, async (transaction) => {
+                            const resourceSnap = await transaction.get(resourceRef);
+                            if (!resourceSnap.exists()) {
+                                throw new Error('Resource not found.');
+                            }
+
+                            const latestStatus = safeText(resourceSnap.data().availability_status).toLowerCase();
+                            if (latestStatus !== 'available') {
+                                throw new Error('Resource is currently unavailable.');
+                            }
+
+                            newBorrowRequestRef = doc(collection(db, 'borrowing_transactions'));
+                            transaction.set(newBorrowRequestRef, {
+                                accession_no: accessionNo,
+                                request_date: serverTimestamp(),
+                                status: 'requested',
+                                user_id: auth.currentUser.uid
+                            });
+                            transaction.update(resourceRef, { availability_status: 'unavailable' });
+                        });
+
+                        if (newBorrowRequestRef) {
+                            activeBorrowRequestDocId = newBorrowRequestRef.id;
+                        }
+                        currentAvailabilityStatus = 'unavailable';
+                        if (statusLabel) statusLabel.textContent = formatStatus(currentAvailabilityStatus);
+                        alert('Borrow request sent.');
+                    }
+                } catch (err) {
+                    console.error('Error processing borrow action:', err);
+                    alert(err.message || 'Borrow operation failed.');
+                } finally {
+                    borrowActionInFlight = false;
+                    refreshBorrowState();
                 }
             });
         }
