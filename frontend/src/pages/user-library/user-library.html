@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Library</title>
     <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/user-library/user-library.css">
 </head>
 <body>
     <!-- Top Logo Bar -->
@@ -24,6 +25,52 @@
             <li><a href="../auth/logout.html">Log out</a></li>
         </ul>
     </nav>
+    <section class="library-header">
+        <div class="library-container">
+            <h1>My Library</h1>
+
+            <form class="search-box" action="../search-results/search-results.html" method="GET">
+                <input type="text" name="query" placeholder="Search by title or author..." required>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </section>
+
+    <main class="library-page">
+        <section class="library-row">
+            <div class="library-row-header">
+                <h2 class="library-row-title">Saved Books</h2>
+                <a class="view-all-btn" href="saved.html">View All</a>
+            </div>
+            <div id="savedPreviewGrid" class="library-grid preview-grid"></div>
+        </section>
+
+        <section class="library-row">
+            <div class="library-row-header">
+                <h2 class="library-row-title">Requested to Borrow</h2>
+                <a class="view-all-btn" href="requested.html">View All</a>
+            </div>
+            <div id="requestedPreviewGrid" class="library-grid preview-grid"></div>
+        </section>
+
+        <section class="library-row">
+            <div class="library-row-header">
+                <h2 class="library-row-title">Borrowed</h2>
+                <a class="view-all-btn" href="borrowed.html">View All</a>
+            </div>
+            <div id="borrowedPreviewGrid" class="library-grid preview-grid"></div>
+        </section>
+
+        <section class="library-row">
+            <div class="library-row-header">
+                <h2 class="library-row-title">Borrow History</h2>
+                <a class="view-all-btn" href="borrow-history.html">View All</a>
+            </div>
+            <div id="historyPreviewGrid" class="library-grid preview-grid"></div>
+        </section>
+    </main>
+
+    <script type="module" src="../../assets/js/user-library/user-library.js"></script>
   <script type="module" src="../../assets/js/auth/authGuard.js"></script>
 </body>
 </html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Saved Books</title>
+	<link rel="stylesheet" href="../../assets/css/common/navbar.css">
+	<link rel="stylesheet" href="../../assets/css/user-library/user-library.css">
+</head>
+<body>
+	<header class="top-bar">
+		<div class="logo">SmartLib</div>
+	</header>
+
+	<nav class="navbar">
+		<ul class="nav-links">
+			<li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+			<li><a href="../discover/discover.html">Discover</a></li>
+			<li><a href="../catalog/catalog.html">Catalog</a></li>
+			<li><a href="user-library.html" class="active">My Library</a></li>
+			<li><a href="../profile/profile.html">My Profile</a></li>
+			<li><a href="../help/help.html">Help</a></li>
+			<li><a href="../auth/logout.html">Log out</a></li>
+		</ul>
+	</nav>
+
+	<section class="library-header">
+		<div class="library-container">
+			<h1>My Library</h1>
+
+			<form class="search-box" action="../search-results/search-results.html" method="GET">
+				<input type="text" name="query" placeholder="Search by title or author..." required>
+				<button type="submit">Search</button>
+			</form>
+		</div>
+	</section>
+
+	<section class="library-list-page">
+		<h2 class="library-list-title">
+			<a href="user-library.html" class="back-arrow">‹</a>
+			Saved Books
+		</h2>
+
+		<div id="libraryListGrid" class="library-grid list-grid"></div>
+	</section>
+
+	<script type="module" src="../../assets/js/auth/authGuard.js"></script>
+	<script type="module" src="../../assets/js/user-library/saved.js"></script>
+</body>
+</html>
