@@ -1,15 +1,15 @@
 import { auth } from "../firebase/firebase.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { db } from "../firebase/firebase.js";
 
-// redirect to login if not signed in or redirect authenticated away from login/signup
-onAuthStateChanged(auth, user => {
+onAuthStateChanged(auth, async user => {
   const path = window.location.pathname;
   const isLogin = path.endsWith('/auth/login.html');
   const isSignup = path.endsWith('/auth/signup.html');
   const isAuthPage = isLogin || isSignup;
 
   if (!user) {
-    // ensure no protected data leaked, clear storage
     try { localStorage.removeItem('user'); } catch (_) {}
     try { sessionStorage.clear(); } catch (_) {}
 
@@ -17,13 +17,24 @@ onAuthStateChanged(auth, user => {
       window.location.href = '../auth/login.html';
     }
   } else {
-    // store minimal info for other scripts
     try {
       localStorage.setItem('user', JSON.stringify({ uid: user.uid, email: user.email, displayName: user.displayName }));
     } catch (_) {}
 
     if (isAuthPage) {
-      window.location.href = '../dashboard/dashboard.html';
+      // Check role and redirect accordingly
+      try {
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        const role = userDoc.exists() ? userDoc.data().role : 'user';
+        if (role === 'admin' || role === 'staff') {
+          window.location.href = '../admin/admin-dashboard.html';
+        } else {
+          window.location.href = '../dashboard/dashboard.html';
+        }
+      } catch (err) {
+        console.warn('Role check failed in authGuard', err);
+        window.location.href = '../dashboard/dashboard.html';
+      }
     }
   }
 });

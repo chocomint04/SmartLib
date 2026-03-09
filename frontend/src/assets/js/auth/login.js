@@ -1,5 +1,7 @@
 import { auth } from "../firebase/firebase.js";
 import { signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+import { db } from "../firebase/firebase.js";
 
 const form = document.getElementById('loginForm');
 const emailInput = document.getElementById('email');
@@ -23,11 +25,9 @@ function showToast(msg, duration = 3000) {
 }
 
 async function doSignIn(email, password, remember) {
-  // choose persistence according to remember checkbox
   try {
     await setPersistence(auth, remember ? browserLocalPersistence : browserSessionPersistence);
   } catch (err) {
-    // ignore persistence errors but continue
     console.warn('Persistence set failed', err);
   }
 
@@ -35,25 +35,25 @@ async function doSignIn(email, password, remember) {
   return result.user;
 }
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
   const email = emailInput.value.trim();
   const password = passwordInput.value;
   const remember = !!rememberBox && rememberBox.checked;
 
-    if (!email) {
-      emailInput.focus();
-      showToast('Please enter your institutional email.');
-      return;
-    }
+  if (!email) {
+    emailInput.focus();
+    showToast('Please enter your institutional email.');
+    return;
+  }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      emailInput.focus();
-      showToast('Please enter a valid email address.');
-      return;
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    emailInput.focus();
+    showToast('Please enter a valid email address.');
+    return;
+  }
 
   if (!password) {
     passwordInput.focus();
@@ -66,11 +66,25 @@ async function doSignIn(email, password, remember) {
 
   try {
     const user = await doSignIn(email, password, remember);
-    // store minimal user info for client logic
     try { localStorage.setItem('user', JSON.stringify({ uid: user.uid, email: user.email })); } catch (_) {}
+
+    // Check role in Firestore and redirect accordingly
+    let redirectUrl = '../dashboard/dashboard.html'; // default
+    try {
+      const userDoc = await getDoc(doc(db, 'users', user.uid));
+      if (userDoc.exists()) {
+        const role = userDoc.data().role;
+        if (role === 'admin' || role === 'staff') {
+          redirectUrl = '../admin/admin-dashboard.html';
+        }
+      }
+    } catch (err) {
+      console.warn('Role check failed, redirecting to user dashboard', err);
+    }
+
     showToast('✓ Signed in successfully! Redirecting…', 1500);
     setTimeout(() => {
-      window.location.href = '../dashboard/dashboard.html';
+      window.location.href = redirectUrl;
     }, 900);
   } catch (err) {
     console.error('Sign-in error', err);
