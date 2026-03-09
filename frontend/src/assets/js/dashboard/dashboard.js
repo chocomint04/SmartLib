@@ -3,274 +3,191 @@
    Path: assets/js/dashboard/dashboard.js
    ========================================= */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { db, auth } from "../firebase/firebase.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
 import {
-    getFirestore,
-    collection,
-    query,
-    where,
-    orderBy,
-    limit,
-    getDocs,
-    getCountFromServer
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  getDoc,
+} from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-// ── FIREBASE CONFIG ──
-// Replace these values with your actual Firebase project config
-// Found at: Firebase Console → Project Settings → General → Your apps → SDK setup
-const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "smartlib-14f29.firebaseapp.com",
-    projectId: "smartlib-14f29",
-    storageBucket: "smartlib-14f29.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-};
+function humanize(name) {
+  return String(name).replace(/_/g, " ");
+}
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+async function loadUserName(uid) {
+  try {
+    const userDoc = await getDoc(doc(db, "users", uid));
+    if (userDoc.exists()) {
+      const data = userDoc.data();
+      const name = data.name || data.displayName || data.email || "Student";
+      document.querySelector(".hero-greeting h1").textContent = name.split(" ")[0];
+    }
+  } catch (err) {
+    console.warn("Could not load user name", err);
+  }
+}
 
-// ── FIRESTORE COLLECTION NAMES ──
-// Adjust these to match your actual Firestore collection names
-const COLLECTIONS = {
-    books: "books",           // All library books
-    borrows: "borrows",       // Active borrow records  { userId, bookId, dueDate, status }
-    wishlist: "wishlist",     // Wishlist items          { userId, bookId }
-    readingStreak: "streaks"  // Reading streak          { userId, streakDays }
-};
+async function loadStats(uid) {
+  try {
+    const txSnap = await getDocs(
+      query(collection(db, "borrowing_transactions"), where("user_id", "==", uid))
+    );
 
-// ── DOM READY ──
-document.addEventListener('DOMContentLoaded', () => {
+    let borrowed = 0;
+    let dueSoon = 0;
+    const now = Date.now();
+    const threeDays = 3 * 24 * 60 * 60 * 1000;
 
-    // Wait for auth state before loading user-specific data
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            loadGreeting(user);
-            loadStats(user.uid);
-            loadRecommendedBooks(user.uid);
-        } else {
-            // Not logged in — authGuard.js should handle redirect
-            console.warn("No user logged in.");
+    txSnap.forEach((d) => {
+      const data = d.data();
+      const status = String(data.status || "").toLowerCase();
+      if (status === "borrowed") {
+        borrowed++;
+        if (data.due_date) {
+          const dueMs = typeof data.due_date.toMillis === "function"
+            ? data.due_date.toMillis()
+            : new Date(data.due_date).getTime();
+          if (dueMs - now <= threeDays && dueMs > now) dueSoon++;
         }
+      }
     });
 
-    // Load non-user-specific data immediately
-    loadCategories();
-    setupSearch();
-    setupNavButtons();
-});
-
-// ── GREETING ──
-function loadGreeting(user) {
-    const nameEl = document.querySelector('.hero-greeting h1');
-    if (nameEl) {
-        nameEl.textContent = user.displayName || user.email?.split('@')[0] || 'Student';
-    }
-}
-
-// ── STATS ──
-async function loadStats(userId) {
+    let wishlist = 0;
     try {
-        // Currently Borrowed
-        const borrowedQuery = query(
-            collection(db, COLLECTIONS.borrows),
-            where("userId", "==", userId),
-            where("status", "==", "active")
-        );
-        const borrowedSnap = await getCountFromServer(borrowedQuery);
-        setStatCard(0, borrowedSnap.data().count);
+      const savedSnap = await getDocs(
+        query(collection(db, "saved_resources"), where("user_id", "==", uid))
+      );
+      wishlist = savedSnap.size;
+    } catch (_) {}
 
-        // Due Soon (within next 3 days)
-        const threeDaysFromNow = new Date();
-        threeDaysFromNow.setDate(threeDaysFromNow.getDate() + 3);
+    let streak = 0;
+    try {
+      const returnedDays = new Set();
+      txSnap.forEach((d) => {
+        const data = d.data();
+        if (String(data.status || "").toLowerCase() === "returned" && data.return_date) {
+          const ms = typeof data.return_date.toMillis === "function"
+            ? data.return_date.toMillis()
+            : new Date(data.return_date).getTime();
+          returnedDays.add(new Date(ms).toDateString());
+        }
+      });
+      streak = returnedDays.size;
+    } catch (_) {}
 
-        const dueSoonQuery = query(
-            collection(db, COLLECTIONS.borrows),
-            where("userId", "==", userId),
-            where("status", "==", "active"),
-            where("dueDate", "<=", threeDaysFromNow)
-        );
-        const dueSoonSnap = await getCountFromServer(dueSoonQuery);
-        setStatCard(1, dueSoonSnap.data().count);
-
-        // Wishlist
-        const wishlistQuery = query(
-            collection(db, COLLECTIONS.wishlist),
-            where("userId", "==", userId)
-        );
-        const wishlistSnap = await getCountFromServer(wishlistQuery);
-        setStatCard(2, wishlistSnap.data().count);
-
-        // Reading Streak
-        const streakQuery = query(
-            collection(db, COLLECTIONS.readingStreak),
-            where("userId", "==", userId),
-            limit(1)
-        );
-        const streakSnap = await getDocs(streakQuery);
-        const streakDays = streakSnap.empty ? 0 : (streakSnap.docs[0].data().streakDays || 0);
-        setStatCard(3, streakDays);
-
-    } catch (err) {
-        console.error("Error loading stats:", err);
-    }
+    document.getElementById("stat-borrowed").textContent = borrowed;
+    document.getElementById("stat-due-soon").textContent = dueSoon;
+    document.getElementById("stat-wishlist").textContent = wishlist;
+    document.getElementById("stat-streak").textContent = streak;
+  } catch (err) {
+    console.error("Error loading stats", err);
+  }
 }
 
-function setStatCard(index, value) {
-    const cards = document.querySelectorAll('.stat-card .stat-number');
-    if (cards[index]) cards[index].textContent = value;
-}
-
-// ── CATEGORIES ──
-// Categories are hardcoded in HTML, but this function can also load them
-// dynamically from Firestore if you have a "categories" collection.
 async function loadCategories() {
-    try {
-        // Optional: load categories dynamically from Firestore
-        // const snapshot = await getDocs(collection(db, "categories"));
-        // const grid = document.querySelector('.categories-grid');
-        // grid.innerHTML = '';
-        // snapshot.forEach(doc => {
-        //     const btn = document.createElement('button');
-        //     btn.className = 'category-pill';
-        //     btn.dataset.category = doc.id;
-        //     btn.textContent = doc.data().name;
-        //     grid.appendChild(btn);
-        // });
+  try {
+    const snap = await getDocs(collection(db, "resources"));
+    const counts = {};
+    snap.forEach((d) => {
+      const prog = d.data().program || "Uncategorized";
+      counts[prog] = (counts[prog] || 0) + 1;
+    });
 
-        // Wire up existing category pills
-        const categoryPills = document.querySelectorAll('.category-pill');
-        categoryPills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                categoryPills.forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
-                const category = pill.dataset.category;
-                window.location.href = `../catalog/catalog.html?category=${encodeURIComponent(category)}`;
-            });
-        });
-
-        const btnCategoriesSeeAll = document.getElementById('btn-categories-see-all');
-        btnCategoriesSeeAll?.addEventListener('click', () => {
-            window.location.href = '../catalog/catalog.html';
-        });
-
-    } catch (err) {
-        console.error("Error loading categories:", err);
-    }
-}
-
-// ── RECOMMENDED BOOKS ──
-// Fetches the 5 most recently added books from Firestore as "recommended"
-// You can replace this logic with a more sophisticated recommendation query
-async function loadRecommendedBooks(userId) {
-    const grid = document.querySelector('.recommended-grid');
+    const top5 = Object.entries(counts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const grid = document.getElementById("categories-grid");
     if (!grid) return;
 
-    // Show skeleton loading state
-    grid.innerHTML = '';
-    for (let i = 0; i < 5; i++) {
-        grid.innerHTML += `<div class="book-card loading-skeleton"></div>`;
-    }
+    grid.innerHTML = top5.map(([prog]) => `
+      <button class="category-pill" data-category="${encodeURIComponent(prog)}">
+        ${humanize(prog)}
+      </button>
+    `).join("");
 
-    try {
-        // Get user's already-borrowed book IDs to exclude them
-        const borrowedQuery = query(
-            collection(db, COLLECTIONS.borrows),
-            where("userId", "==", userId),
-            where("status", "==", "active")
-        );
-        const borrowedSnap = await getDocs(borrowedQuery);
-        const borrowedBookIds = borrowedSnap.docs.map(d => d.data().bookId);
-
-        // Fetch recent books — adjust orderBy field to match your Firestore schema
-        const booksQuery = query(
-            collection(db, COLLECTIONS.books),
-            orderBy("dateAdded", "desc"),
-            limit(10) // Fetch extra to filter out already-borrowed
-        );
-        const booksSnap = await getDocs(booksQuery);
-
-        const books = [];
-        booksSnap.forEach(doc => {
-            if (!borrowedBookIds.includes(doc.id)) {
-                books.push({ id: doc.id, ...doc.data() });
-            }
-        });
-
-        // Render up to 5 book cards
-        grid.innerHTML = '';
-        const toShow = books.slice(0, 5);
-
-        if (toShow.length === 0) {
-            grid.innerHTML = `<p class="empty-state">No recommendations yet.</p>`;
-            return;
-        }
-
-        toShow.forEach(book => {
-            const card = createBookCard(book);
-            grid.appendChild(card);
-        });
-
-    } catch (err) {
-        console.error("Error loading recommended books:", err);
-        grid.innerHTML = `<p class="empty-state">Could not load recommendations.</p>`;
-    }
-
-    // Wire up See All
-    const btnRecommendedSeeAll = document.getElementById('btn-recommended-see-all');
-    btnRecommendedSeeAll?.addEventListener('click', () => {
-        window.location.href = '../discover/discover.html';
+    grid.querySelectorAll(".category-pill").forEach((pill) => {
+      pill.addEventListener("click", () => {
+        grid.querySelectorAll(".category-pill").forEach((p) => p.classList.remove("active"));
+        pill.classList.add("active");
+        window.location.href = `../catalog/category.html?program=${pill.dataset.category}`;
+      });
     });
+  } catch (err) {
+    console.error("Error loading categories", err);
+  }
 }
 
-// ── BUILD BOOK CARD ──
-// Adjust field names (title, author, coverUrl, etc.) to match your Firestore schema
-function createBookCard(book) {
-    const card = document.createElement('div');
-    card.className = 'book-card';
-    card.innerHTML = `
-        <div class="book-cover">
-            ${book.coverUrl
-                ? `<img src="${book.coverUrl}" alt="${book.title}" loading="lazy" />`
-                : `<div class="book-cover-placeholder">📖</div>`}
-        </div>
-        <div class="book-info">
-            <p class="book-title">${book.title || 'Untitled'}</p>
-            <p class="book-author">${book.author || 'Unknown Author'}</p>
-            <p class="book-category">${book.category || ''}</p>
-        </div>
-    `;
-    card.addEventListener('click', () => {
-        window.location.href = `../book-detail/book-detail.html?id=${book.id}`;
+async function loadRecommended() {
+  try {
+    const snap = await getDocs(collection(db, "resources"));
+    const books = [];
+    snap.forEach((d) => books.push({ id: d.id, ...d.data() }));
+
+    const shuffled = books.sort(() => 0.5 - Math.random()).slice(0, 5);
+    const grid = document.getElementById("recommended-grid");
+    if (!grid) return;
+
+    grid.innerHTML = shuffled.map((book) => {
+      const title = book.title_of_material || book.title || "Unknown Title";
+      const author = book.author || "";
+      const isbn = book.isbn ? String(book.isbn).replace(/\s*\(.*\)/, "").trim() : "";
+      const coverUrl = isbn ? `https://covers.openlibrary.org/b/isbn/${isbn}-M.jpg` : "";
+      return `
+        <div class="book-card" data-id="${book.id}" style="cursor:pointer;">
+          ${coverUrl ? `<img src="${coverUrl}" alt="${title}" style="width:100%;height:140px;object-fit:cover;border-radius:8px 8px 0 0;" onerror="this.style.display='none'">` : ""}
+          <div style="padding:10px;">
+            <div style="font-size:0.82rem;font-weight:700;color:#111;line-height:1.3;">${title}</div>
+            ${author ? `<div style="font-size:0.75rem;color:#666;margin-top:3px;">${author}</div>` : ""}
+          </div>
+        </div>`;
+    }).join("");
+
+    grid.querySelectorAll(".book-card").forEach((card) => {
+      card.addEventListener("click", () => {
+        window.location.href = `../resource-details/resource-details.html?id=${card.dataset.id}`;
+      });
     });
-    return card;
+  } catch (err) {
+    console.error("Error loading recommended books", err);
+  }
 }
 
-// ── SEARCH ──
 function setupSearch() {
-    const btnSearch = document.getElementById('btn-search');
-    const searchInput = document.getElementById('search-input');
+  const btnSearch = document.getElementById("btn-search");
+  const searchInput = document.getElementById("search-input");
 
-    btnSearch?.addEventListener('click', handleSearch);
-    searchInput?.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') handleSearch();
-    });
+  function handleSearch() {
+    const q = searchInput.value.trim();
+    if (!q) return;
+    window.location.href = `../search-results/search-results.html?query=${encodeURIComponent(q)}`;
+  }
 
-    function handleSearch() {
-        const query = searchInput.value.trim();
-        if (!query) return;
-        window.location.href = `../catalog/catalog.html?search=${encodeURIComponent(query)}`;
-    }
+  btnSearch.addEventListener("click", handleSearch);
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") handleSearch();
+  });
 }
 
-// ── NAV BUTTONS ──
-function setupNavButtons() {
-    document.getElementById('btn-notifications')?.addEventListener('click', () => {
-        window.location.href = '../notifications/notifications.html';
-    });
-    document.getElementById('btn-my-library')?.addEventListener('click', () => {
-        window.location.href = '../user-library/user-library.html';
-    });
+function setupButtons() {
+  document.getElementById("btn-my-library")?.addEventListener("click", () => {
+    window.location.href = "../user-library/user-library.html";
+  });
+  document.getElementById("btn-categories-see-all")?.addEventListener("click", () => {
+    window.location.href = "../catalog/catalog.html";
+  });
+  document.getElementById("btn-recommended-see-all")?.addEventListener("click", () => {
+    window.location.href = "../discover/discover.html";
+  });
 }
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) return;
+  setupSearch();
+  setupButtons();
+  await loadUserName(user.uid);
+  await loadStats(user.uid);
+  await loadCategories();
+  await loadRecommended();
+});
