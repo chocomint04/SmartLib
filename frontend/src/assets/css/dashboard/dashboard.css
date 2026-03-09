@@ -3,60 +3,6 @@
    Path: assets/css/dashboard/dashboard.css
    ========================================= */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f0f0;
-    color: #222;
-}
-
-/* ── TOP LOGO BAR ── */
-.top-bar {
-    background-color: #111;
-    padding: 18px 40px;
-}
-
-.logo {
-    color: #f0c020;
-    font-size: 1.7rem;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-}
-
-/* ── NAVBAR ── */
-.navbar {
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 0 40px;
-}
-
-.nav-links {
-    list-style: none;
-    display: flex;
-    gap: 0;
-}
-
-.nav-links li a {
-    display: block;
-    padding: 16px 22px;
-    text-decoration: none;
-    color: #333;
-    font-size: 0.95rem;
-    font-weight: 500;
-    transition: color 0.2s;
-}
-
-.nav-links li a:hover,
-.nav-links li a.active {
-    color: #c0392b;
-    border-bottom: 2px solid #c0392b;
-}
-
 /* ── HERO BANNER ── */
 .hero-banner {
     background-color: #b71c1c;
