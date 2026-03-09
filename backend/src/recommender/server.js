@@ -1,10 +1,54 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const fs = require("fs");
 const { PythonShell } = require("python-shell");
 const admin = require("firebase-admin");
 
-const serviceAccount = require("../../serviceAccountKey.json");
+function loadFirebaseCredentials() {
+  const rawFromEnv = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+  if (rawFromEnv && rawFromEnv.trim()) {
+    try {
+      return JSON.parse(rawFromEnv);
+    } catch (_err) {
+      throw new Error("FIREBASE_SERVICE_ACCOUNT_JSON is set but is not valid JSON.");
+    }
+  }
+
+  const keyPath = path.join(__dirname, "../../serviceAccountKey.json");
+  if (fs.existsSync(keyPath)) {
+    return require(keyPath);
+  }
+
+  throw new Error(
+    "Firebase credentials are missing. Set FIREBASE_SERVICE_ACCOUNT_JSON or provide backend/serviceAccountKey.json."
+  );
+}
+
+function createCorsOptions() {
+  const raw = String(process.env.CORS_ALLOWED_ORIGINS || "").trim();
+  if (!raw) {
+    return { origin: true, credentials: true };
+  }
+
+  const allowedOrigins = raw
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+  return {
+    credentials: true,
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+      callback(new Error("CORS blocked for origin: " + origin));
+    },
+  };
+}
+
+const serviceAccount = loadFirebaseCredentials();
 
 const app = express();
 const PORT = Number(process.env.PORT || 5000);
@@ -17,7 +61,7 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-app.use(cors());
+app.use(cors(createCorsOptions()));
 app.use(express.json());
 
 function toPositiveInt(value, fallback, min, max) {
@@ -75,11 +119,12 @@ function isQuotaExceededError(error) {
 async function runPythonRecommender(userId, options) {
   const scriptPath = path.join(__dirname, "recommender.py");
   const bundlePath = path.join(__dirname, "recommender.joblib");
+  const defaultPythonPath = process.platform === "win32" ? "python" : "python3";
 
   const shellOptions = {
     mode: "text",
     pythonOptions: ["-u"],
-    pythonPath: process.env.PYTHON_PATH || "python",
+    pythonPath: process.env.PYTHON_PATH || defaultPythonPath,
     args: [
       "--bundle", bundlePath,
       "--user_id", userId,
@@ -198,7 +243,11 @@ async function getStoredRecommendations(userId, maxItems) {
 }
 
 app.get("/health", (_req, res) => {
-  res.json({ status: "ok" });
+  res.json({
+    status: "ok",
+    service: "smartlib-backend",
+    uptime_seconds: Math.floor(process.uptime()),
+  });
 });
 
 app.post("/recommendations/:userId/generate", async (req, res) => {
