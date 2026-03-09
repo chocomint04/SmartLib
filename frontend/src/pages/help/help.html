@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SmartLib – Help</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/help/help.css">
 </head>
 <body>
+
     <!-- Top Logo Bar -->
     <header class="top-bar">
         <div class="logo">SmartLib</div>
@@ -24,6 +27,188 @@
             <li><a href="../auth/logout.html">Log out</a></li>
         </ul>
     </nav>
-  <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Help <span>&amp; Support</span></h1>
+        <p>Library information, FAQs, and contact details for Mapúa University Library.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="help-container">
+
+        <!-- LEFT COLUMN -->
+        <div class="left-col">
+
+            <!-- About -->
+            <h2 class="section-heading">About the Library</h2>
+
+            <div class="about-card">
+                <h3>Mapúa University Library — Intramuros</h3>
+                <p>
+                    The Mapúa University Library has served students and faculty since the University's founding in
+                    <strong>1925</strong>. Located at the 2nd Floor, West Building, 658 Muralla St., Intramuros, Manila,
+                    it is the central hub for academic research, digital resources, and collaborative learning.
+                </p>
+                <p>
+                    The library provides access to thousands of physical books, e-journals, theses, databases, and
+                    multimedia resources covering Engineering, Computer Science, Architecture, Business, Medicine, and more.
+                    A branch library is also available in <strong>Makati</strong> for students enrolled at that campus.
+                </p>
+                <div class="tag-row">
+                    <span class="tag">Engineering</span>
+                    <span class="tag">Computer Science</span>
+                    <span class="tag">Architecture</span>
+                    <span class="tag">Business</span>
+                    <span class="tag">Medicine</span>
+                    <span class="tag">E-Journals</span>
+                    <span class="tag">Theses &amp; Dissertations</span>
+                </div>
+            </div>
+
+            <div class="about-card about-card--crimson">
+                <h3>Vision &amp; Mission</h3>
+                <p><strong>Vision:</strong> Mapúa Library envisions itself as one of the country's leading academic libraries.</p>
+                <p><strong>Mission:</strong> To support teaching, research, and extension functions of the Institution by
+                assuring equitable access to high-quality information resources and services for all students, faculty,
+                and researchers.</p>
+            </div>
+
+            <!-- FAQ -->
+            <h2 class="section-heading">Frequently Asked Questions</h2>
+
+            <div class="faq-list">
+
+                <details class="faq-item">
+                    <summary class="faq-question">How do I borrow a book?</summary>
+                    <p class="faq-answer">Present your valid Mapúa ID at the circulation desk. Through SmartLib, you can reserve a book via the Catalog page and pick it up at the library. Standard loan period is 3 days for regular books and 1 day for reserve items.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">How do I renew or return a borrowed book?</summary>
+                    <p class="faq-answer">Renewals can be done through your SmartLib "My Library" page or by visiting the circulation desk. Books must be returned before the due date to avoid fines. A return drop box is available at the library entrance.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">Can outside researchers use the library?</summary>
+                    <p class="faq-answer">Yes. External researchers must email the library (library@mapua.edu.ph) with a list of needed materials and bring a referral letter from their institution. A maximum of 16 visiting users are accommodated per day.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">How do I access e-books and online databases?</summary>
+                    <p class="faq-answer">Log in to SmartLib with your Mapúa student account. Databases such as IEEE Xplore, Wiley Online Library, and SAGE are accessible through the library portal. Off-campus access may require VPN credentials — contact the library for details.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">How do I book a discussion room?</summary>
+                    <p class="faq-answer">Discussion rooms at the Collaborative Zone can be reserved through the Mapúa LibCal system at mapua.libcal.com. Bookings are subject to availability and library operating hours.</p>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">What happens if I return a book late?</summary>
+                    <p class="faq-answer">Overdue fines are charged per day per item. Unpaid fines may suspend your borrowing privileges. View your due dates and fines anytime under "My Library" in SmartLib.</p>
+                </details>
+
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="sidebar">
+
+            <!-- Contact -->
+            <div class="contact-card">
+                <div class="card-title">Contact the Library</div>
+
+                <div class="contact-item">
+                    <div class="c-icon">
+                        <!-- Location pin -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <div>
+                        <div class="c-label">Address</div>
+                        <div class="c-value">2/F West Bldg, 658 Muralla St.<br>Intramuros, Manila 1002</div>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="c-icon">
+                        <!-- Phone -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.5 2 2 0 0 1 3.6 1.32h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+                    </div>
+                    <div>
+                        <div class="c-label">Phone</div>
+                        <div class="c-value"><a href="tel:+6322475000">+63 2 247 5000</a></div>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="c-icon">
+                        <!-- Mail -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <div>
+                        <div class="c-label">Email (Intramuros)</div>
+                        <div class="c-value"><a href="mailto:library@mapua.edu.ph">library@mapua.edu.ph</a></div>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="c-icon">
+                        <!-- Mail -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <div>
+                        <div class="c-label">Email (Makati Branch)</div>
+                        <div class="c-value"><a href="mailto:lbefondo@mapua.edu.ph">lbefondo@mapua.edu.ph</a></div>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="c-icon">
+                        <!-- Globe -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                    </div>
+                    <div>
+                        <div class="c-label">Website</div>
+                        <div class="c-value"><a href="https://library.mapua.edu.ph" target="_blank">library.mapua.edu.ph</a></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Hours -->
+            <div class="hours-card">
+                <div class="card-title">Library Hours</div>
+                <div class="hours-row">
+                    <span class="day">Monday – Friday</span>
+                    <span class="time">7:30 AM – 9:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Saturday</span>
+                    <span class="time">8:00 AM – 5:00 PM</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Sunday</span>
+                    <span class="time closed">Closed</span>
+                </div>
+                <div class="hours-row">
+                    <span class="day">Holidays</span>
+                    <span class="time closed">Closed</span>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="quick-links-card">
+                <div class="card-title">Quick Links</div>
+                <a class="quick-link" href="../catalog/catalog.html">Browse Catalog</a>
+                <a class="quick-link" href="../user-library/user-library.html">My Borrowed Books</a>
+                <a class="quick-link" href="https://mapua.libcal.com/" target="_blank">Book a Study Room</a>
+                <a class="quick-link" href="https://library.mapua.edu.ph" target="_blank">Official Library Site</a>
+                <a class="quick-link" href="mailto:library@mapua.edu.ph">Email the Library</a>
+            </div>
+
+        </aside>
+    </div>
+
 </body>
 </html>
