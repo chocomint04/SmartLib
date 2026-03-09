@@ -56,7 +56,7 @@ Render will build using `backend/Dockerfile` and run `npm start`.
 In Render service settings -> `Environment`, add:
 
 - `PORT` = `5000`
-- `PYTHON_PATH` = `python3`
+- `PYTHON_PATH` = `python`
 - `CORS_ALLOWED_ORIGINS` = `https://YOUR_NETLIFY_SITE.netlify.app,http://localhost:5500`
 - `FIREBASE_SERVICE_ACCOUNT_JSON` = full Firebase service account JSON in one line
 
