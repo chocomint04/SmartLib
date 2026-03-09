@@ -103,28 +103,34 @@
         </section>
     </main>
 
-<script>
-(function(){
+<script type="module">
+import { db } from "../../assets/js/firebase/firebase.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
+
+(async function(){
   const defaults = {
     name: 'Farrah S. Batumbakal',
     school: '2022156790 / Engineering / 2nd Year',
     status: 'Student',
-    interests: [
-      {name: 'Engineering', count: 10},
-      {name: 'Programming Languages', count: 7},
-      {name: 'Foreign Language', count: 2}
-    ]
+    interests: [] // populated later when we have counts
   };
 
-  // list of all possible interests with associated counts
-  const interestOptions = [
-    {name: 'Engineering', count: 10},
-    {name: 'Programming Languages', count: 7},
-    {name: 'Nursing', count: 8},
-    {name: 'Foreign Languages', count: 2},
-    {name: 'Historical', count: 6},
-    {name: 'Filipiniana', count: 15}
-  ];
+  // interest options will be loaded from Firestore
+  let interestOptions = [];
+
+  async function loadInterestOptions() {
+    const counts = {};
+    try {
+      const snap = await getDocs(collection(db, 'resources'));
+      snap.forEach(d => {
+        const prog = d.data().program || 'Uncategorized';
+        counts[prog] = (counts[prog] || 0) + 1;
+      });
+    } catch (err) {
+      console.error('could not load programs', err);
+    }
+    interestOptions = Object.entries(counts).map(([name, count]) => ({name, count}));
+  }
 
   // form elements
   const nameInput = document.querySelector('.input-fields input[placeholder="Name"]');
@@ -138,13 +144,16 @@
   statusSelect.value = localStorage.getItem('status') || defaults.status;
 
   const storedInterests = JSON.parse(localStorage.getItem('interests') || 'null') || defaults.interests;
+
+  // once interestOptions are loaded, build the dropdowns
+  await loadInterestOptions();
   interestBoxes.forEach((box, idx) => {
     const select = box.querySelector('.interest-dropdown');
     const placeholder = box.querySelector('.related-books-placeholder');
 
-    // populate dropdown with all options
-    select.innerHTML = '<option>Select Interest</option>' +
-      interestOptions.map(opt => '<option>' + opt.name + '</option>').join('');
+    // populate dropdown with all options (value=name)
+    select.innerHTML = '<option value="">Select Category</option>' +
+      interestOptions.map(opt => `<option value="${opt.name}">${opt.name}</option>`).join('');
 
     // set previously chosen value if available
     if (storedInterests[idx]) {
@@ -157,29 +166,6 @@
       const chosen = interestOptions.find(o => o.name === select.value);
       placeholder.textContent = chosen ? chosen.count : '–';
     });
-  });
-
-  document.querySelector('.btn-save').addEventListener('click', () => {
-    localStorage.setItem('name', nameInput.value);
-    localStorage.setItem('school', schoolInput.value);
-    localStorage.setItem('status', statusSelect.value);
-    // update interests counts/names from boxes
-    const newInts = [];
-    interestBoxes.forEach(box => {
-      const select = box.querySelector('.interest-dropdown');
-      const placeholder = box.querySelector('.related-books-placeholder');
-      // if user didn't choose anything, leave blank
-      if (select.value && select.value !== 'Select Interest') {
-        const chosen = interestOptions.find(o => o.name === select.value);
-        newInts.push({
-          name: select.value,
-          count: chosen ? chosen.count : placeholder.textContent
-        });
-      }
-    });
-    localStorage.setItem('interests', JSON.stringify(newInts));
-    // return to profile overview
-    window.location.href = 'profile.html';
   });
 
   document.querySelector('.btn-cancel').addEventListener('click', () => {
@@ -251,7 +237,7 @@
       const select = box.querySelector('.interest-dropdown');
       const placeholder = box.querySelector('.related-books-placeholder');
       // if user didn't choose anything, leave blank
-      if (select.value && select.value !== 'Select Interest') {
+      if (select.value) {
         const chosen = interestOptions.find(o => o.name === select.value);
         newInts.push({
           name: select.value,
