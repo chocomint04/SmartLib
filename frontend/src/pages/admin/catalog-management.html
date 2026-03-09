@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLib — Catalog Management</title>
+    <link rel="stylesheet" href="../../assets/css/admin/admin-dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/admin/catalog-management.css">
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <header class="top-bar">
+        <div class="logo-area">
+            <div class="logo">SmartLib</div>
+            <div class="logo-sub">Admin Panel</div>
+        </div>
+        <nav class="admin-nav">
+            <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+            <a href="analytics.html" class="nav-link">Analytics</a>
+            <a href="archives.html" class="nav-link">Archives</a>
+            <a href="catalog-management.html" class="nav-link active">Catalog Management</a>
+            <a href="../auth/logout.html" class="nav-link" style="color:#c62828;">Log out</a>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="cm-hero">
+        <div class="cm-hero-content">
+            <h1>Catalog Management</h1>
+            <p class="cm-hero-sub">Inventory control, lending status, and resource administration</p>
+            <div class="cm-search-bar">
+                <input type="text" id="cm-search-input" placeholder="Search by title, ISBN, author, or category…" />
+                <button id="cm-search-btn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="cm-filters-row">
+        <select id="filter-program">
+            <option value="">All Programs</option>
+        </select>
+        <select id="filter-collection">
+            <option value="">All Collections</option>
+        </select>
+        <select id="filter-availability">
+            <option value="">All Availability</option>
+            <option value="available">Available</option>
+            <option value="borrowed">Borrowed</option>
+        </select>
+        <select id="filter-access">
+            <option value="">All Access Levels</option>
+            <option value="grad">Grad-Only</option>
+            <option value="open">Open Access</option>
+        </select>
+        <div class="cm-results-count" id="cm-count">Loading…</div>
+    </div>
+
+    <!-- Table -->
+    <div class="cm-main">
+        <div class="cm-table-card">
+            <div class="cm-table-header">
+                <h2>Resource Inventory</h2>
+            </div>
+            <div class="cm-table-wrapper">
+                <table id="cm-table">
+                    <thead>
+                        <tr>
+                            <th>Resource ID</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Program / Collection</th>
+                            <th>Year</th>
+                            <th>Availability</th>
+                            <th>Access</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cm-tbody">
+                        <tr><td colspan="8" class="cm-loading">Loading resources…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="cm-load-more-row" id="load-more-row" style="display:none;">
+                <button id="load-more-btn" class="cm-load-more-btn">Load More</button>
+            </div>
+        </div>
+
+        <div class="cm-footer-note">
+            Inventory status updates automatically based on borrowing transactions and access policy enforcement.
+        </div>
+    </div>
+
+    <!-- Detail / Edit Drawer -->
+    <div class="cm-drawer-overlay" id="drawer-overlay"></div>
+    <aside class="cm-drawer" id="cm-drawer">
+        <div class="cm-drawer-top">
+            <span id="drawer-mode-label">Resource Details</span>
+            <button class="cm-drawer-close" id="drawer-close">✕</button>
+        </div>
+        <div class="cm-drawer-body" id="cm-drawer-body">
+            <!-- injected by JS -->
+        </div>
+    </aside>
+
+    <script type="module" src="../../assets/js/firebase/firebase.js"></script>
+    <script type="module" src="../../assets/js/admin/catalog-management.js"></script>
+</body>
+</html>

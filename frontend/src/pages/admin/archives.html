@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLib — Archives</title>
+    <link rel="stylesheet" href="../../assets/css/admin/admin-dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/admin/archives.css">
+</head>
+<body>
+
+    <!-- Top Logo Bar -->
+    <header class="top-bar">
+        <div class="logo-area">
+            <div class="logo">SmartLib</div>
+            <div class="logo-sub">Admin Panel</div>
+        </div>
+        <nav class="admin-nav">
+            <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+            <a href="analytics.html" class="nav-link">Analytics</a>
+            <a href="archives.html" class="nav-link active">Archives</a>
+            <a href="catalog-management.html" class="nav-link">Catalog Management</a>
+            <a href="../auth/logout.html" class="nav-link" style="color:#c62828;">Log out</a>
+        </nav>
+    </header>
+
+    <!-- Archives Hero -->
+    <section class="archives-hero">
+        <div class="archives-hero-content">
+            <div class="hero-eyebrow">Unrestricted Access</div>
+            <h1>Archives: <span class="archives-title-accent">Full Collection</span></h1>
+            <p class="hero-sub">Complete visibility over all institutional resources — including grad-only materials — regardless of access restrictions set for end users.</p>
+            <div class="archives-search-bar">
+                <input type="text" id="archives-search-input" placeholder="Search by title, author, accession no., or ISBN…" />
+                <button id="archives-search-btn">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <div class="archives-filters-row">
+        <select id="filter-program">
+            <option value="">All Programs</option>
+        </select>
+        <select id="filter-collection">
+            <option value="">All Collections</option>
+        </select>
+        <select id="filter-grad">
+            <option value="">All Access Levels</option>
+            <option value="grad">Grad-Only</option>
+            <option value="open">Open Access</option>
+        </select>
+        <select id="filter-year">
+            <option value="">All Years</option>
+        </select>
+        <div class="archives-results-count" id="archives-count">Loading…</div>
+    </div>
+
+    <!-- Resources Grid -->
+    <div class="archives-main">
+        <div class="archives-section-label">All Resources</div>
+        <div class="archives-grid" id="archives-grid">
+            <div class="archives-skeleton"></div>
+            <div class="archives-skeleton"></div>
+            <div class="archives-skeleton"></div>
+            <div class="archives-skeleton"></div>
+            <div class="archives-skeleton"></div>
+            <div class="archives-skeleton"></div>
+            <div class="archives-skeleton"></div>
+            <div class="archives-skeleton"></div>
+        </div>
+        <div class="archives-load-more-row" id="load-more-row" style="display:none;">
+            <button id="load-more-btn" class="load-more-btn">Load More Resources</button>
+        </div>
+    </div>
+
+    <!-- Admin Info Box -->
+    <div class="archives-info-box">
+        <div class="archives-info-inner">
+            <span class="info-icon">🔓</span>
+            <div>
+                <strong>Admin Archive Access</strong>
+                <p>You have full visibility over all resources regardless of grad-only restrictions. Grad-only status shown on each card is for reference only and does not limit your access here.</p>
+            </div>
+            <a href="restrict-resources.html" class="info-manage-link">Manage Restrictions →</a>
+        </div>
+    </div>
+
+    <!-- Drawer Overlay -->
+    <div class="archives-drawer-overlay" id="drawer-overlay"></div>
+
+    <!-- Resource Detail Drawer -->
+    <aside class="archives-drawer" id="archives-drawer">
+        <button class="drawer-close" id="drawer-close">✕</button>
+        <div class="drawer-cover-wrap">
+            <img id="drawer-cover" src="" alt="Cover" style="display:none;" />
+            <div id="drawer-cover-fallback"></div>
+        </div>
+        <div class="drawer-body">
+            <div class="drawer-access-badge" id="drawer-access-badge"></div>
+            <h2 id="drawer-title"></h2>
+            <p class="drawer-author" id="drawer-author"></p>
+            <div class="drawer-meta-grid">
+                <div class="drawer-meta-item">
+                    <span class="meta-label">Accession No.</span>
+                    <span id="dm-accession"></span>
+                </div>
+                <div class="drawer-meta-item">
+                    <span class="meta-label">Year</span>
+                    <span id="dm-year"></span>
+                </div>
+                <div class="drawer-meta-item">
+                    <span class="meta-label">Program</span>
+                    <span id="dm-program"></span>
+                </div>
+                <div class="drawer-meta-item">
+                    <span class="meta-label">Collection</span>
+                    <span id="dm-collection"></span>
+                </div>
+                <div class="drawer-meta-item">
+                    <span class="meta-label">Call Number</span>
+                    <span id="dm-callno"></span>
+                </div>
+                <div class="drawer-meta-item">
+                    <span class="meta-label">ISBN</span>
+                    <span id="dm-isbn"></span>
+                </div>
+                <div class="drawer-meta-item">
+                    <span class="meta-label">Availability</span>
+                    <span id="dm-availability"></span>
+                </div>
+                <div class="drawer-meta-item">
+                    <span class="meta-label">Date in ALMA</span>
+                    <span id="dm-alma"></span>
+                </div>
+                <div class="drawer-meta-item">
+                    <span class="meta-label">DR No.</span>
+                    <span id="dm-drno"></span>
+                </div>
+            </div>
+            <p class="drawer-description" id="drawer-description"></p>
+            <div class="drawer-actions">
+                <a id="drawer-view-link" href="#" class="drawer-btn-primary">View Full Details</a>
+                <button id="drawer-toggle-grad" class="drawer-btn-secondary"></button>
+            </div>
+        </div>
+    </aside>
+
+    <script type="module" src="../../assets/js/firebase/firebase.js"></script>
+    <script type="module" src="../../assets/js/admin/archives.js"></script>
+</body>
+</html>
