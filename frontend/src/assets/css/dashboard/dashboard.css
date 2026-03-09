@@ -1,0 +1,279 @@
+/* =========================================
+   dashboard.css
+   Path: assets/css/dashboard/dashboard.css
+   ========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    color: #222;
+}
+
+/* ── TOP LOGO BAR ── */
+.top-bar {
+    background-color: #111;
+    padding: 18px 40px;
+}
+
+.logo {
+    color: #f0c020;
+    font-size: 1.7rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 0 40px;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 0;
+}
+
+.nav-links li a {
+    display: block;
+    padding: 16px 22px;
+    text-decoration: none;
+    color: #333;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links li a:hover,
+.nav-links li a.active {
+    color: #c0392b;
+    border-bottom: 2px solid #c0392b;
+}
+
+/* ── HERO BANNER ── */
+.hero-banner {
+    background-color: #b71c1c;
+    padding: 32px 40px 36px;
+    position: relative;
+}
+
+.hero-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.hero-greeting {
+    color: #fff;
+}
+
+.hero-greeting p {
+    font-size: 1rem;
+    margin-bottom: 4px;
+    opacity: 0.9;
+}
+
+.hero-greeting h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.hero-greeting .subtitle {
+    font-size: 0.95rem;
+    opacity: 0.85;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    border-radius: 999px;
+    padding: 8px 22px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #fff;
+}
+
+/* ── SEARCH BAR ── */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.22);
+    border-radius: 999px;
+    overflow: hidden;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.search-bar input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 14px 24px;
+    font-size: 0.95rem;
+    color: #fff;
+    outline: none;
+}
+
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.search-bar button {
+    background: #f0c020;
+    border: none;
+    padding: 14px 32px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111;
+    cursor: pointer;
+    border-radius: 999px;
+    margin: 4px;
+    transition: background 0.2s;
+}
+
+.search-bar button:hover {
+    background: #e6b800;
+}
+
+/* ── MAIN CONTENT ── */
+.main-content {
+    padding: 30px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* ── STATS CARDS ── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 36px;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 22px 24px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card .stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #111;
+    margin-bottom: 4px;
+}
+
+.stat-card .stat-label {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+/* ── SECTION HEADER ── */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-header h2 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #c0392b;
+}
+
+.see-all-btn {
+    background: #f0c020;
+    color: #111;
+    border: none;
+    border-radius: 999px;
+    padding: 7px 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.see-all-btn:hover {
+    background: #e6b800;
+}
+
+/* ── CATEGORY PILLS ── */
+.categories-section {
+    margin-bottom: 36px;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+
+.category-pill {
+    background: #fff;
+    border: none;
+    border-radius: 999px;
+    padding: 18px 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    transition: background 0.2s, color 0.2s, transform 0.15s;
+}
+
+.category-pill:hover,
+.category-pill.active {
+    background: #b71c1c;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ── RECOMMENDED SECTION ── */
+.recommended-section {
+    margin-bottom: 40px;
+}
+
+.recommended-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+}
+
+.book-card {
+    background: #b71c1c;
+    border-radius: 16px;
+    height: 110px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.book-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(183, 28, 28, 0.3);
+}

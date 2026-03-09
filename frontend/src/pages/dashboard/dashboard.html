@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>SmartLib - Student Dashboard</title>
     <link rel="stylesheet" href="../../assets/css/common/navbar.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard/dashboard.css">
 </head>
 <body>
+
     <!-- Top Logo Bar -->
     <header class="top-bar">
         <div class="logo">SmartLib</div>
@@ -24,6 +26,82 @@
             <li><a href="../auth/logout.html">Log out</a></li>
         </ul>
     </nav>
-  <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-top">
+            <div class="hero-greeting">
+                <p>Welcome back,</p>
+                <h1>Name</h1>
+                <span class="subtitle">Continue your learning journey today</span>
+            </div>
+            <div class="hero-actions">
+                <button id="btn-notifications" class="btn-outline">Notifications</button>
+                <button id="btn-my-library" class="btn-outline">My Library</button>
+            </div>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search books, authors, subjects..." />
+            <button id="btn-search">Search</button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Currently Borrowed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Due Soon</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">On Wishlist</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Reading Streak</div>
+            </div>
+        </div>
+
+        <!-- Browse by Category -->
+        <section class="categories-section">
+            <div class="section-header">
+                <h2>Browse by Category</h2>
+                <button class="see-all-btn" id="btn-categories-see-all">See All</button>
+            </div>
+            <div class="categories-grid">
+                <button class="category-pill" data-category="computer-studies">Computer Studies</button>
+                <button class="category-pill" data-category="mathematics">Mathematics</button>
+                <button class="category-pill" data-category="physics">Physics</button>
+                <button class="category-pill" data-category="literature">Literature</button>
+                <button class="category-pill" data-category="engineering">Engineering</button>
+            </div>
+        </section>
+
+        <!-- Recommended for You -->
+        <section class="recommended-section">
+            <div class="section-header">
+                <h2>Recommended for You</h2>
+                <button class="see-all-btn" id="btn-recommended-see-all">See All</button>
+            </div>
+            <div class="recommended-grid">
+                <div class="book-card"></div>
+                <div class="book-card"></div>
+                <div class="book-card"></div>
+                <div class="book-card"></div>
+                <div class="book-card"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script src="../../assets/js/dashboard/dashboard.js"></script>
 </body>
 </html>
