@@ -332,7 +332,14 @@ async function handleStatusChange(newStatus) {
 
   try {
     const ref = doc(db, "borrowing_transactions", docId);
-    await updateDoc(ref, { status: newStatus });
+    const updateData = { status: newStatus };
+    if (newStatus === "borrowed") {
+      updateData.borrow_date = Timestamp.now();
+    }
+    if (newStatus === "returned") {
+      updateData.return_date = Timestamp.now();
+    }
+    await updateDoc(ref, updateData);
 
     // Update local state so the UI reflects the change without re-fetching
     const row = allTransactions.find((t) => t.docId === docId);
