@@ -69,6 +69,17 @@ async function loadResource(){
         let activeBorrowRequestDocId = null;
         let currentAvailabilityStatus = safeText(data.availability_status || 'Unknown').toLowerCase();
         let borrowActionInFlight = false;
+        const isGradOnly = !!data.grad_only;
+
+        // Fetch current user's role to enforce grad-only restriction
+        let userRole = null;
+        if (userId) {
+            try {
+                const userSnap = await getDoc(doc(db, 'users', userId));
+                if (userSnap.exists()) userRole = userSnap.data().role;
+            } catch(e) { console.warn('Could not fetch user role', e); }
+        }
+        const canAccessGradOnly = userRole === 'admin' || userRole === 'staff' || userRole === 'graduate';
 
         const img = getCoverUrl(data);
         if(coverEl){
@@ -175,6 +186,11 @@ async function loadResource(){
                     setBorrowButtonState('Borrow', true);
                     return;
                 }
+                // Block borrow if grad-only and user doesn't have access
+                if (isGradOnly && !canAccessGradOnly) {
+                    setBorrowButtonState('Grad Access Only', true);
+                    return;
+                }
                 if (activeBorrowRequestDocId) {
                     setBorrowButtonState('Cancel Borrow', false);
                     return;
@@ -206,6 +222,10 @@ async function loadResource(){
                     return;
                 }
                 if (!accessionNo || borrowActionInFlight) {
+                    return;
+                }
+                if (isGradOnly && !canAccessGradOnly) {
+                    alert('This resource is restricted to graduate students only.');
                     return;
                 }
                 if (!activeBorrowRequestDocId && currentAvailabilityStatus !== 'available') {
