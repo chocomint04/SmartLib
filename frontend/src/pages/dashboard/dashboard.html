@@ -32,11 +32,10 @@
         <div class="hero-top">
             <div class="hero-greeting">
                 <p>Welcome back,</p>
-                <h1>Name</h1>
+                <h1>Student</h1>
                 <span class="subtitle">Continue your learning journey today</span>
             </div>
             <div class="hero-actions">
-                <button id="btn-notifications" class="btn-outline">Notifications</button>
                 <button id="btn-my-library" class="btn-outline">My Library</button>
             </div>
         </div>
@@ -52,19 +51,19 @@
         <!-- Stats Cards -->
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-number">5</div>
+                <div class="stat-number" id="stat-borrowed">—</div>
                 <div class="stat-label">Currently Borrowed</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">2</div>
+                <div class="stat-number" id="stat-due-soon">—</div>
                 <div class="stat-label">Due Soon</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">8</div>
+                <div class="stat-number" id="stat-wishlist">—</div>
                 <div class="stat-label">On Wishlist</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">8</div>
+                <div class="stat-number" id="stat-streak">—</div>
                 <div class="stat-label">Reading Streak</div>
             </div>
         </div>
@@ -75,12 +74,8 @@
                 <h2>Browse by Category</h2>
                 <button class="see-all-btn" id="btn-categories-see-all">See All</button>
             </div>
-            <div class="categories-grid">
-                <button class="category-pill" data-category="computer-studies">Computer Studies</button>
-                <button class="category-pill" data-category="mathematics">Mathematics</button>
-                <button class="category-pill" data-category="physics">Physics</button>
-                <button class="category-pill" data-category="literature">Literature</button>
-                <button class="category-pill" data-category="engineering">Engineering</button>
+            <div class="categories-grid" id="categories-grid">
+                <!-- Dynamically loaded from Firestore -->
             </div>
         </section>
 
@@ -90,18 +85,14 @@
                 <h2>Recommended for You</h2>
                 <button class="see-all-btn" id="btn-recommended-see-all">See All</button>
             </div>
-            <div class="recommended-grid">
-                <div class="book-card"></div>
-                <div class="book-card"></div>
-                <div class="book-card"></div>
-                <div class="book-card"></div>
-                <div class="book-card"></div>
+            <div class="recommended-grid" id="recommended-grid">
+                <!-- Dynamically loaded from Firestore -->
             </div>
         </section>
 
     </div>
 
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
     <script type="module" src="../../assets/js/dashboard/dashboard.js"></script>
-    <script src="../../assets/js/dashboard/dashboard.js"></script>
 </body>
 </html>
