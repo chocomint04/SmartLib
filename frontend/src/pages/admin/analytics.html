@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLib - Analytics</title>
+    <link rel="stylesheet" href="../../assets/css/admin/admin-dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/admin/analytics.css">
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="logo-area">
+            <div class="logo">SmartLib</div>
+            <div class="logo-sub">Admin Panel</div>
+        </div>
+        <nav class="admin-nav">
+            <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+            <a href="analytics.html" class="nav-link active">Analytics</a>
+            <a href="#" class="nav-link">Detailed Reports</a>
+            <a href="#" class="nav-link">Archives</a>
+            <a href="#" class="nav-link">Catalog Management</a>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>Analytics Overview</h1>
+            <p class="hero-sub">System performance, usage patterns, and <span class="ai-highlight">borrowing metrics</span></p>
+        </div>
+    </section>
+
+    <!-- Stat Cards -->
+    <div class="stats-row" id="stats-row">
+        <div class="stat-card">
+            <span class="stat-dot yellow"></span>
+            <div class="stat-number" id="stat-total-borrows">—</div>
+            <div class="stat-label">Total Borrows</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-dot red"></span>
+            <div class="stat-number" id="stat-overdue">—</div>
+            <div class="stat-label">Overdue Items</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-dot yellow"></span>
+            <div class="stat-number" id="stat-total-users">—</div>
+            <div class="stat-label">Registered Users</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-dot yellow"></span>
+            <div class="stat-number" id="stat-total-resources">—</div>
+            <div class="stat-label">Total Resources</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-dot green"></span>
+            <div class="stat-number" id="stat-return-rate">—</div>
+            <div class="stat-label">Return Rate</div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+
+        <!-- Borrows Per Day Chart -->
+        <div class="chart-row">
+            <section class="card chart-card">
+                <div class="card-header-row">
+                    <h2>Borrows Per Day <span class="chart-sub">(last 14 days)</span></h2>
+                </div>
+                <canvas id="borrows-chart" height="120"></canvas>
+            </section>
+
+            <section class="card chart-card">
+                <div class="card-header-row">
+                    <h2>Status Breakdown</h2>
+                </div>
+                <canvas id="status-chart" height="120"></canvas>
+                <div id="status-legend" class="status-legend"></div>
+            </section>
+        </div>
+
+        <!-- Top Programs + Recent Activity -->
+        <div class="bottom-grid-3">
+
+            <!-- Top Borrowed Programs -->
+            <section class="card">
+                <h2>Top Borrowed Programs</h2>
+                <p class="card-desc">By number of borrow transactions</p>
+                <div id="top-programs-list" class="bar-list"></div>
+            </section>
+
+            <!-- Most Borrowed Books -->
+            <section class="card">
+                <h2>Most Borrowed Books</h2>
+                <p class="card-desc">Top resources by borrow count</p>
+                <div id="top-books-list" class="bar-list"></div>
+            </section>
+
+            <!-- Activity by Status -->
+            <section class="card">
+                <h2>Monthly Summary</h2>
+                <p class="card-desc">Transaction counts this month</p>
+                <div id="monthly-summary" class="summary-list"></div>
+            </section>
+
+        </div>
+
+    </div>
+
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script type="module" src="../../assets/js/admin/analytics.js"></script>
+</body>
+</html>
