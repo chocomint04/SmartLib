@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLib - Admin Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/admin/admin-dashboard.css">
+</head>
+<body>
+
+    <!-- Top Logo Bar -->
+    <header class="top-bar">
+        <div class="logo-area">
+            <div class="logo">SmartLib</div>
+            <div class="logo-sub">Admin Panel</div>
+        </div>
+        <nav class="admin-nav">
+            <a href="admin-dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="#" class="nav-link">Analytics</a>
+            <a href="#" class="nav-link">Detailed Reports</a>
+            <a href="#" class="nav-link">Archives</a>
+            <a href="#" class="nav-link">Catalog Management</a>
+        </nav>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>Welcome back, Admin</h1>
+            <p class="hero-sub">Monitor activity, manage data, and review <span class="ai-highlight">AI insights</span></p>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search users, books, borrowing records, or reports" />
+                <button id="btn-search">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Cards -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <span class="stat-dot yellow"></span>
+            <div class="stat-number" id="stat-active-users">—</div>
+            <div class="stat-label">Total Active Users</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-dot yellow"></span>
+            <div class="stat-number" id="stat-borrowed-today">—</div>
+            <div class="stat-label">Books Borrowed Today</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-dot red"></span>
+            <div class="stat-number" id="stat-overdue">—</div>
+            <div class="stat-label">Overdue Items Today</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-dot yellow"></span>
+            <div class="stat-number" id="stat-recommendations">—</div>
+            <div class="stat-label">AI Recommendations Today</div>
+        </div>
+        <div class="stat-card">
+            <span class="stat-dot yellow"></span>
+            <div class="stat-number" id="stat-alerts">—</div>
+            <div class="stat-label">System Alerts</div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="main-grid">
+
+        <!-- Borrowing Activity Logs -->
+        <section class="card logs-card">
+            <div class="card-header">
+                <h2>Borrowing Activity Logs</h2>
+                <div class="filter-row">
+                    <select id="filter-status">
+                        <option value="">All Statuses</option>
+                        <option value="borrowed">Borrowed</option>
+                        <option value="returned">Returned</option>
+                        <option value="overdue">Overdue</option>
+                        <option value="cancelled">Cancelled</option>
+                        <option value="requested">Requested</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <table id="activity-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Book Title</th>
+                            <th>Category</th>
+                            <th>Borrow Date</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activity-tbody">
+                        <tr>
+                            <td colspan="7" class="table-loading">Loading activity logs…</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Bottom Grid: User Management + AI Insights -->
+        <div class="bottom-grid">
+
+            <!-- User Management -->
+            <section class="card user-mgmt-card">
+                <h2>User Management</h2>
+                <p class="card-desc">Quick access to accounts, roles, and restrictions.</p>
+                <ul class="mgmt-list">
+                    <li><span class="dot yellow"></span><a href="#">Create Account</a></li>
+                    <li><span class="dot yellow"></span><a href="#">Assign Role (Staff/Admin)</a></li>
+                    <li><span class="dot yellow"></span><a href="#">Restrict Resources (Grad-only)</a></li>
+                </ul>
+            </section>
+
+            <!-- AI Recommendation Insights -->
+            <section class="card ai-card">
+                <h2>AI Recommendation Insights</h2>
+                <p class="card-desc">Cold-start users this week</p>
+                <div class="cold-start-count" id="cold-start-count">—</div>
+                <canvas id="recommendations-chart" height="90"></canvas>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Status Change Modal -->
+    <div id="status-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>Update Borrow Status</h3>
+            <p class="modal-book-title" id="modal-book-title"></p>
+            <p class="modal-user" id="modal-user-name"></p>
+            <div class="status-options">
+                <button class="status-btn btn-borrowed" data-status="borrowed">Borrowed</button>
+                <button class="status-btn btn-returned" data-status="returned">Returned</button>
+                <button class="status-btn btn-overdue" data-status="overdue">Overdue</button>
+                <button class="status-btn btn-cancelled" data-status="cancelled">Cancelled</button>
+            </div>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../../assets/js/admin/admin-dashboard.js"></script>
+</body>
+</html>
