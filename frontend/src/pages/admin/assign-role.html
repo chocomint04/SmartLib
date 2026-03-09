@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLib - Assign Role</title>
+    <link rel="stylesheet" href="../../assets/css/admin/admin-dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/admin/user-management.css">
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="logo-area">
+            <div class="logo">SmartLib</div>
+            <div class="logo-sub">Admin Panel</div>
+        </div>
+        <nav class="admin-nav">
+            <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+            <a href="analytics.html" class="nav-link">Analytics</a>
+            <a href="#" class="nav-link">Detailed Reports</a>
+            <a href="#" class="nav-link">Archives</a>
+            <a href="#" class="nav-link">Catalog Management</a>
+            <a href="../auth/logout.html" class="nav-link" style="color:#e53935;">Log out</a>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>Assign Role</h1>
+            <p class="hero-sub">Manage <span class="ai-highlight">staff and admin</span> permissions</p>
+        </div>
+    </section>
+
+    <div class="main-grid">
+        <section class="card">
+            <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+                <div>
+                    <h2>All Users</h2>
+                    <p class="card-desc" style="margin-bottom:0;">Click a user to change their role.</p>
+                </div>
+                <div class="search-inline">
+                    <input type="text" id="user-search" placeholder="Search by name or email..." />
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table id="users-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Current Role</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr><td colspan="4" class="table-loading">Loading users…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <!-- Role Modal -->
+    <div id="role-modal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>Change Role</h3>
+            <p class="modal-book-title" id="modal-user-name"></p>
+            <p class="modal-user" id="modal-user-email"></p>
+            <div class="form-group" style="margin-top:16px;">
+                <label>Assign Role</label>
+                <select id="modal-role-select">
+                    <option value="user">User (Student)</option>
+                    <option value="staff">Staff</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="modal-actions" style="margin-top:20px;display:flex;gap:10px;justify-content:flex-end;">
+                <button id="modal-save" class="btn-primary">Save</button>
+                <button id="modal-cancel" class="btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script type="module" src="../../assets/js/admin/assign-role.js"></script>
+</body>
+</html>

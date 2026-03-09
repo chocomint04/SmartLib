@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartLib - Create Account</title>
+    <link rel="stylesheet" href="../../assets/css/admin/admin-dashboard.css">
+    <link rel="stylesheet" href="../../assets/css/admin/user-management.css">
+</head>
+<body>
+
+    <header class="top-bar">
+        <div class="logo-area">
+            <div class="logo">SmartLib</div>
+            <div class="logo-sub">Admin Panel</div>
+        </div>
+        <nav class="admin-nav">
+            <a href="admin-dashboard.html" class="nav-link">Dashboard</a>
+            <a href="analytics.html" class="nav-link">Analytics</a>
+            <a href="#" class="nav-link">Detailed Reports</a>
+            <a href="#" class="nav-link">Archives</a>
+            <a href="#" class="nav-link">Catalog Management</a>
+            <a href="../auth/logout.html" class="nav-link" style="color:#e53935;">Log out</a>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        <div class="hero-content">
+            <h1>Create Account</h1>
+            <p class="hero-sub">Add a new user to the <span class="ai-highlight">SmartLib</span> system</p>
+        </div>
+    </section>
+
+    <div class="main-grid">
+        <div class="form-container">
+            <section class="card form-card">
+                <h2>New User Details</h2>
+                <p class="card-desc">Fill in the details below to create a new account.</p>
+
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="input-name" placeholder="e.g. Juan dela Cruz" />
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="input-email" placeholder="e.g. juan@university.edu" />
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="input-password" placeholder="Min. 6 characters" />
+                        <span class="toggle-pwd" id="togglePwd">👁</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="input-role">
+                        <option value="user">User (Student)</option>
+                        <option value="staff">Staff</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div id="form-feedback" class="form-feedback hidden"></div>
+
+                <div class="form-actions">
+                    <button id="btn-create" class="btn-primary">Create Account</button>
+                    <a href="admin-dashboard.html" class="btn-secondary-link">Cancel</a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script type="module" src="../../assets/js/admin/create-account.js"></script>
+</body>
+</html>
