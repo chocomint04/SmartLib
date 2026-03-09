@@ -9,12 +9,10 @@
 </head>
 <body>
 
-    <!-- Top Logo Bar -->
     <header class="top-bar">
         <div class="logo">SmartLib</div>
     </header>
 
-    <!-- Navigation Bar -->
     <nav class="navbar">
         <ul class="nav-links">
             <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
@@ -27,108 +25,76 @@
         </ul>
     </nav>
 
-    <!-- Main Content -->
     <main class="profile-container">
 
-        <!-- Sidebar -->
         <aside class="sidebar">
             <ul class="sidebar-links">
                 <li><a href="#" class="active">Profile Overview</a></li>
                 <li><a href="../profile/edit_prof.html">Edit Profile &amp; Academic Interests</a></li>
                 <li><a href="../profile/pref_and_reco_settings.html">Preferences and Recommendation Settings</a></li>
-                <li><a href="../profile/privacy_and_notif_settings.html">Privacy and Notification Settings</a></li>
                 <li><a href="../profile/reading_stats.html">Reading Statistics</a></li>
-                
             </ul>
         </aside>
 
-        <!-- Profile Content -->
         <section class="profile-content">
 
-            <!-- User Info Card -->
             <div class="user-info-card">
-                <div class="avatar-placeholder"></div>
+                <div class="avatar-placeholder" id="avatar"></div>
                 <div class="user-details">
-                    <p class="detail-label">Farrah S. Batumbakal</p>
-                    <p class="detail-label">2022156790 / Engineering / 2nd Year</p>
-                    <p class="detail-label">Student</p>
+                    <p class="detail-label" id="user-name">—</p>
+                    <p class="detail-label" id="user-school">—</p>
+                    <p class="detail-label" id="user-status">Student</p>
                 </div>
             </div>
 
-            <!-- Academic Interests -->
             <div class="academic-interests">
                 <h2 class="section-title">Academic Interests</h2>
-                <div class="interest-cards">
-                    <div class="interest-card">
-                        <p class="interest-name">Engineering</p>
-                        <p class="interest-count">10</p>
-                        <p class="interest-sub">Related books</p>
-                    </div>
-                    <div class="interest-card">
-                        <p class="interest-name">Programming Languages</p>
-                        <p class="interest-count">7</p>
-                        <p class="interest-sub">Related books</p>
-                    </div>
-                    <div class="interest-card">
-                        <p class="interest-name">Foreign Language</p>
-                        <p class="interest-count">2</p>
-                        <p class="interest-sub">Related books</p>
-                    </div>
-                </div>
+                <div class="interest-cards" id="interest-cards"></div>
             </div>
 
         </section>
     </main>
 
 <script>
-// display user info from localStorage or defaults
-(function() {
-  const defaults = {
-    name: 'Farrah S. Batumbakal',
-    school: '2022156790 / Engineering / 2nd Year',
-    status: 'Student',
-    interests: [
-      {name: 'Engineering', count: 10},
-      {name: 'Programming Languages', count: 7},
-      {name: 'Foreign Language', count: 2}
-    ]
-  };
+(function () {
+  // Read from localStorage — same source as edit_prof.html
+  const name    = localStorage.getItem('name')   || '—';
+  const school  = localStorage.getItem('school') || '—';
+  const status  = localStorage.getItem('status') || 'Student';
+  const interests = JSON.parse(localStorage.getItem('interests') || '[]');
 
-  const nameElem = document.querySelector('.user-details .detail-label:nth-child(1)');
-  const schoolElem = document.querySelector('.user-details .detail-label:nth-child(2)');
-  const statusElem = document.querySelector('.user-details .detail-label:nth-child(3)');
-  const interestCards = document.querySelectorAll('.interest-card');
+  document.getElementById('user-name').textContent   = name;
+  document.getElementById('user-school').textContent = school;
+  document.getElementById('user-status').textContent = status;
 
-  const storedName = localStorage.getItem('name') || defaults.name;
-  const storedSchool = localStorage.getItem('school') || defaults.school;
-  const storedStatus = localStorage.getItem('status') || defaults.status;
-  const storedInterests = JSON.parse(localStorage.getItem('interests') || 'null') || defaults.interests;
-
-  nameElem.textContent = storedName;
-  schoolElem.textContent = storedSchool;
-  statusElem.textContent = storedStatus;
-
-  // load profile picture if user set one
+  // Profile picture
   const picData = localStorage.getItem('profilePic');
-  console.log('profilePic data from storage:', picData && picData.substring(0,50));
   if (picData) {
-    const avatar = document.querySelector('.avatar-placeholder');
-    avatar.style.backgroundImage = `url(${picData})`;
-    avatar.style.backgroundSize = 'cover';
+    const avatar = document.getElementById('avatar');
+    avatar.style.backgroundImage    = `url(${picData})`;
+    avatar.style.backgroundSize     = 'cover';
     avatar.style.backgroundPosition = 'center';
-    avatar.style.backgroundColor = 'transparent'; // ensure white doesn't obscure
-    avatar.style.border = '1px solid #ccc'; // debug border
   }
 
-  storedInterests.forEach((int, idx) => {
-    if (interestCards[idx]) {
-      interestCards[idx].querySelector('.interest-name').textContent = int.name;
-      interestCards[idx].querySelector('.interest-count').textContent = int.count;
-    }
-  });
+  // Academic interests
+  const container = document.getElementById('interest-cards');
+  if (interests.length) {
+    container.innerHTML = interests.map(int => `
+      <div class="interest-card">
+        <p class="interest-name">${int.name}</p>
+        <p class="interest-count">${int.count}</p>
+        <p class="interest-sub">Related books</p>
+      </div>`).join('');
+  } else {
+    container.innerHTML = `
+      <div class="interest-card">
+        <p class="interest-name" style="font-size:0.85rem;color:#555;">No interests set yet.</p>
+        <p class="interest-sub">Edit your profile to add interests</p>
+      </div>`;
+  }
 })();
 </script>
 
-  <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
 </body>
 </html>

@@ -3,18 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SmartLib - Profile</title>
+    <title>SmartLib - Reading Statistics</title>
     <link rel="stylesheet" href="../../assets/css/common/navbar.css">
     <link rel="stylesheet" href="../../assets/css/common/profile.css">
 </head>
 <body>
 
-    <!-- Top Logo Bar -->
     <header class="top-bar">
         <div class="logo">SmartLib</div>
     </header>
 
-    <!-- Navigation Bar -->
     <nav class="navbar">
         <ul class="nav-links">
             <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
@@ -27,43 +25,48 @@
         </ul>
     </nav>
 
-    <!-- Main Content -->
     <main class="profile-container">
 
-        <!-- Sidebar -->
         <aside class="sidebar">
             <ul class="sidebar-links">
                 <li><a href="../profile/profile.html">Profile Overview</a></li>
                 <li><a href="../profile/edit_prof.html">Edit Profile &amp; Academic Interests</a></li>
                 <li><a href="../profile/pref_and_reco_settings.html">Preferences and Recommendation Settings</a></li>
-                <li><a href="../profile/privacy_and_notif_settings.html">Privacy and Notification Settings</a></li>
                 <li><a href="../profile/reading_stats.html" class="active">Reading Statistics</a></li>
             </ul>
         </aside>
 
-        <!-- Reading Statistics Content -->
         <section class="content">
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-number">5</div>
+                    <div class="stat-number" id="stat-borrowed">—</div>
                     <div class="stat-label">Currently Borrowed</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">8</div>
+                    <div class="stat-number" id="stat-wishlist">—</div>
                     <div class="stat-label">On Wishlist</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">2</div>
+                    <div class="stat-number" id="stat-due-soon">—</div>
                     <div class="stat-label">Due Soon</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">8</div>
-                    <div class="stat-label">Reading Streak</div>
+                    <div class="stat-number" id="stat-total-returned">—</div>
+                    <div class="stat-label">Total Returned</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-overdue">—</div>
+                    <div class="stat-label">Overdue</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="stat-streak">—</div>
+                    <div class="stat-label">Reading Streak (days)</div>
                 </div>
             </div>
         </section>
     </main>
 
-  <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script type="module" src="../../assets/js/profile/reading-stats.js"></script>
 </body>
 </html>
