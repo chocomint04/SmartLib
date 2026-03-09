@@ -14,26 +14,39 @@
 .sidebar {
     background-color: #f5c518;
     border-radius: 12px 0 0 12px;
-    padding: 24px 16px;
-    min-width: 200px;
+    /* add extra vertical padding so links aren't flush with edges */
+    padding: 40px 24px;
+    min-width: 220px;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .sidebar-links {
     list-style: none;
+    margin: 0;
+    padding: 0;
+    /* make the link container take all available height and space items evenly */
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    justify-content: space-evenly;
+    align-items: flex-start; /* left-align the text */
+    gap: 0; /* spacing is handled by justify-content */
 }
 
 .sidebar-links li a {
     text-decoration: none;
     color: #fff;
-    font-size: 0.82rem;
+    font-size: 1.6rem;
     font-weight: 600;
-    text-align: center;
+    font-family: serif;
+    /* left align instead of center */
+    text-align: left;
     display: block;
     line-height: 1.4;
+    width: 100%;
+    padding: 4px 8px; /* small horizontal padding to offset from edge */
     transition: color 0.2s;
 }
 
@@ -46,7 +59,7 @@
 /* ---- Profile Content ---- */
 .profile-content {
     background-color: #9b0000;
-    border-radius: 0 12px 12px 0;
+    border-radius: 0 60px 60px 0;
     padding: 24px 32px;
     flex: 1;
     display: flex;
@@ -99,7 +112,7 @@
     transform: translate(-50%, 6px);
 }
 .user-details .detail-label {
-    font-size: 2.1rem; /* larger text */
+    font-size: 2.31rem; /* larger text */
 }
 
 .user-details {
@@ -112,6 +125,8 @@
     color: #fff;
     /* font-size removed to allow earlier larger size */
     font-weight: 400;
+    font-family: serif;
+    font-style: italic;
 }
 
 /* Academic Interests */
@@ -123,7 +138,7 @@
 
 .section-title {
     color: #fff;
-    font-size: 1.05rem;
+    font-size: 1.90rem;
     font-weight: 700;
 }
 
@@ -167,7 +182,7 @@
 /* ---- Reading Statistics Content ---- */
 .content {
     background-color: #9b0000;
-    border-radius: 0 12px 12px 0;
+    border-radius: 0 60px 60px 0;
     padding: 24px 32px;
     flex: 1;
     display: flex;

@@ -35,74 +35,75 @@
             <ul class="sidebar-links">
                 <li><a href="../profile/profile.html">Profile Overview</a></li>
                 <li><a href="../profile/edit_prof.html">Edit Profile &amp; Academic Interests</a></li>
-                <li><a href="../profile/pref_and_reco_settings.html">Preferences and Recommendation Settings</a></li>
-                <li><a href="../profile/privacy_and_notif_settings.html" class="active">Privacy and Notification Settings</a></li>
+                <li><a href="#" class="active">Preferences and Recommendation Settings</a></li>
+                <li><a href="../profile/privacy_and_notif_settings.html">Privacy and Notification Settings</a></li>
                 <li><a href="../profile/reading_stats.html">Reading Statistics</a></li>
             </ul>
         </aside>
 
-        <!-- Settings Content -->
+        <!-- Preferences / Recommendation Settings Content -->
         <section class="content">
-            <!-- Privacy Settings -->
+
+            <!-- Preferences Settings -->
             <div class="settings-section">
-                <h2 class="settings-title">Privacy Settings</h2>
+                <h2 class="settings-title">Preferences Settings</h2>
                 <div class="settings-list">
                     <label class="setting-item">
-                        <input type="checkbox" data-key="profileVisible">
-                        <span>Make my profile visible to other learners.</span>
+                        <input type="checkbox" data-key="prioritizeEbooks">
+                        <span>Prioritize E-books and digital resources over physical copies.</span>
                     </label>
                     <label class="setting-item">
-                        <input type="checkbox" data-key="showActivities">
-                        <span>Allow other learners to see my recently borrowed and read titles.</span>
+                        <input type="checkbox" data-key="languageOnly">
+                        <span>Recommend books in my primary language only.</span>
                     </label>
                     <label class="setting-item">
-                        <input type="checkbox" data-key="showInterests">
-                        <span>Display my academic interests on my public profile.</span>
+                        <input type="checkbox" data-key="includeResearch">
+                        <span>Include advanced research papers and academic journals in my feed.</span>
                     </label>
                     <label class="setting-item">
-                        <input type="checkbox" data-key="useHistoryForRec">
-                        <span>Use my reading history to provide personalized book recommendations.</span>
+                        <input type="checkbox" data-key="newMaterialsFirst">
+                        <span>Show me newly published materials (i.e. last 2 years) first.</span>
                     </label>
                 </div>
             </div>
 
-            <!-- Notification Settings -->
+            <!-- Recommendation Settings -->
             <div class="settings-section">
-                <h2 class="settings-title">Notification Settings</h2>
+                <h2 class="settings-title">Recommendation Settings</h2>
                 <div class="settings-list">
                     <label class="setting-item">
-                        <input type="checkbox" data-key="dueReminder">
-                        <span>Notify me when a book is due within 48 hours.</span>
+                        <input type="checkbox" data-key="suggestOutside">
+                        <span>Suggest books from related academic fields outside my main interests.</span>
                     </label>
                     <label class="setting-item">
-                        <input type="checkbox" data-key="newInterestBooks">
-                        <span>Alert me when new books matching my academic interests are added.</span>
+                        <input type="checkbox" data-key="highlightTrending">
+                        <span>Highlight trending titles and most-borrowed books in my department.</span>
                     </label>
                     <label class="setting-item">
-                        <input type="checkbox" data-key="reservationPickup">
-                        <span>Send an update when a reserved book is ready for pickup.</span>
+                        <input type="checkbox" data-key="showPeers">
+                        <span>Show me what other learners in my course are currently reading.</span>
                     </label>
                     <label class="setting-item">
-                        <input type="checkbox" data-key="monthlyNews">
-                        <span>Receive monthly newsletters and library event announcements.</span>
+                        <input type="checkbox" data-key="weeklySummary">
+                        <span>Send a weekly 'Recommended for You' summary to my inbox.</span>
                     </label>
                 </div>
             </div>
+
         </section>
     </main>
 
     <script>
-        // load saved preferences from localStorage and wire up toggling
         document.addEventListener('DOMContentLoaded', () => {
             const defaults = {
-                profileVisible: true,
-                showActivities: true,
-                showInterests: false,
-                useHistoryForRec: false,
-                dueReminder: true,
-                newInterestBooks: false,
-                reservationPickup: false,
-                monthlyNews: false
+                prioritizeEbooks: false,
+                languageOnly: false,
+                includeResearch: false,
+                newMaterialsFirst: false,
+                suggestOutside: false,
+                highlightTrending: false,
+                showPeers: false,
+                weeklySummary: false
             };
 
             const checkboxes = document.querySelectorAll('input[type=checkbox][data-key]');
@@ -114,14 +115,12 @@
                 } else if (key in defaults) {
                     cb.checked = defaults[key];
                 }
-
-                // toggle state and persist when changed
                 cb.addEventListener('change', () => {
                     localStorage.setItem(key, cb.checked);
                 });
             });
         });
     </script>
-  <script type="module" src="../../assets/js/auth/authGuard.js"></script>
+    <script type="module" src="../../assets/js/auth/authGuard.js"></script>
 </body>
 </html>
