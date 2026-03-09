@@ -59,11 +59,19 @@ In Render service settings -> `Environment`, add:
 - `PYTHON_PATH` = `python`
 - `CORS_ALLOWED_ORIGINS` = `https://YOUR_NETLIFY_SITE.netlify.app,http://localhost:5500`
 - `FIREBASE_SERVICE_ACCOUNT_JSON` = full Firebase service account JSON in one line
+- `FIREBASE_SERVICE_ACCOUNT_JSON_BASE64` = base64-encoded JSON (recommended)
 
 Notes:
 
-- Keep JSON valid and fully escaped when pasted as one line.
+- Prefer `FIREBASE_SERVICE_ACCOUNT_JSON_BASE64` and leave `FIREBASE_SERVICE_ACCOUNT_JSON` empty.
+- If you use `FIREBASE_SERVICE_ACCOUNT_JSON`, keep JSON valid and fully escaped when pasted as one line.
 - If your local tests use another dev frontend origin, append it in `CORS_ALLOWED_ORIGINS` separated by commas.
+
+PowerShell command to generate base64 from `backend/serviceAccountKey.json`:
+
+```powershell
+[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes((Get-Content .\serviceAccountKey.json -Raw)))
+```
 
 ## 7) Trigger and Monitor Deploy
 
