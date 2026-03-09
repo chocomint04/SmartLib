@@ -9,7 +9,9 @@ import {
   where,
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = (window.APP_CONFIG && window.APP_CONFIG.API_BASE_URL)
+  ? window.APP_CONFIG.API_BASE_URL
+  : "https://smartlib-xyf1.onrender.com";
 const COVER_FALLBACK_URL = "../../assets/images/sample.png";
 const loadingOverlay = document.getElementById("discoverLoading");
 

@@ -1,0 +1,15 @@
+[build]
+  base = "frontend"
+  publish = "src"
+
+[[redirects]]
+  from = "/"
+  to = "/pages/auth/login.html"
+  status = 302
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
