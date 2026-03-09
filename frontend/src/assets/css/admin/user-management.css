@@ -1,0 +1,235 @@
+/* =========================================
+   user-management.css
+   Path: assets/css/admin/user-management.css
+   ========================================= */
+
+.form-container {
+    max-width: 560px;
+}
+
+.form-card {
+    padding: 32px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.form-group input,
+.form-group select {
+    background: #252525;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #e0e0e0;
+    padding: 11px 14px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #f0c020;
+}
+
+.form-group input::placeholder {
+    color: #555;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon input {
+    padding-right: 44px;
+}
+
+.toggle-pwd {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 1rem;
+    user-select: none;
+}
+
+.form-feedback {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 16px;
+}
+
+.form-feedback.success {
+    background: #1b5e20;
+    color: #a5d6a7;
+}
+
+.form-feedback.error {
+    background: #b71c1c;
+    color: #ef9a9a;
+}
+
+.form-feedback.hidden {
+    display: none;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.btn-primary {
+    background: #f0c020;
+    color: #111;
+    border: none;
+    padding: 11px 28px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover { background: #d4a800; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-secondary-link {
+    color: #888;
+    font-size: 0.88rem;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.btn-secondary-link:hover { color: #ccc; }
+
+/* ── SEARCH ── */
+.search-inline input {
+    background: #252525;
+    border: 1px solid #333;
+    border-radius: 6px;
+    color: #e0e0e0;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    outline: none;
+    width: 260px;
+    transition: border-color 0.2s;
+}
+
+.search-inline input:focus { border-color: #f0c020; }
+
+/* ── TABLES ── */
+#users-table, #resources-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+#users-table th, #resources-table th {
+    text-align: left;
+    padding: 10px 14px;
+    color: #f0c020;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid #2a2a2a;
+    white-space: nowrap;
+}
+
+#users-table td, #resources-table td {
+    padding: 12px 14px;
+    color: #ccc;
+    border-bottom: 1px solid #232323;
+    vertical-align: middle;
+}
+
+#users-table tbody tr:hover,
+#resources-table tbody tr:hover { background: #1f1f1f; }
+
+.table-loading {
+    text-align: center;
+    color: #666;
+    padding: 32px !important;
+}
+
+/* ── ROLE BADGES ── */
+.role-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 0.73rem;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.role-admin { background: #b71c1c; color: #ef9a9a; }
+.role-staff { background: #0d47a1; color: #90caf9; }
+.role-user  { background: #333; color: #aaa; }
+
+/* ── TOGGLE SWITCH ── */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: #333;
+    border-radius: 22px;
+    transition: background 0.2s;
+}
+
+.toggle-slider:before {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    left: 3px;
+    bottom: 3px;
+    background: #888;
+    border-radius: 50%;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.toggle-switch input:checked + .toggle-slider { background: #1b5e20; }
+.toggle-switch input:checked + .toggle-slider:before {
+    transform: translateX(18px);
+    background: #a5d6a7;
+}
+
+/* ── BUTTONS ── */
+.edit-btn {
+    background: none;
+    border: 1px solid #444;
+    color: #ccc;
+    padding: 5px 14px;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+}
+
+.edit-btn:hover { border-color: #f0c020; color: #f0c020; }
