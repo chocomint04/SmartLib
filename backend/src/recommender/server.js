@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const { spawnSync } = require("child_process");
 const { PythonShell } = require("python-shell");
 const admin = require("firebase-admin");
 
@@ -19,6 +20,44 @@ const db = admin.firestore();
 
 app.use(cors());
 app.use(express.json());
+
+function canRunCommand(command, args) {
+  try {
+    const result = spawnSync(command, args, {
+      windowsHide: true,
+      stdio: "ignore",
+      shell: false,
+    });
+    return !result.error;
+  } catch (_err) {
+    return false;
+  }
+}
+
+function resolvePythonRuntime() {
+  const configuredPath = String(process.env.PYTHON_PATH || "").trim();
+  if (configuredPath) {
+    return { pythonPath: configuredPath, launcherArgs: [] };
+  }
+
+  if (process.platform === "win32") {
+    if (canRunCommand("py", ["-3", "--version"])) {
+      return { pythonPath: "py", launcherArgs: ["-3"] };
+    }
+    if (canRunCommand("python3", ["--version"])) {
+      return { pythonPath: "python3", launcherArgs: [] };
+    }
+    return { pythonPath: "python", launcherArgs: [] };
+  }
+
+  if (canRunCommand("python3", ["--version"])) {
+    return { pythonPath: "python3", launcherArgs: [] };
+  }
+
+  return { pythonPath: "python", launcherArgs: [] };
+}
+
+const pythonRuntime = resolvePythonRuntime();
 
 function toPositiveInt(value, fallback, min, max) {
   const parsed = Number(value);
@@ -78,8 +117,8 @@ async function runPythonRecommender(userId, options) {
 
   const shellOptions = {
     mode: "text",
-    pythonOptions: ["-u"],
-    pythonPath: process.env.PYTHON_PATH || "python",
+    pythonOptions: [...pythonRuntime.launcherArgs, "-u"],
+    pythonPath: pythonRuntime.pythonPath,
     args: [
       "--bundle", bundlePath,
       "--user_id", userId,
@@ -91,8 +130,19 @@ async function runPythonRecommender(userId, options) {
     ],
   };
 
-  const lines = await PythonShell.run(scriptPath, shellOptions);
-  return parseRecommendationOutput(lines);
+  try {
+    const lines = await PythonShell.run(scriptPath, shellOptions);
+    return parseRecommendationOutput(lines);
+  } catch (error) {
+    if (error && (error.code === "EACCES" || error.code === "ENOENT")) {
+      throw new Error(
+        `Unable to execute Python using '${shellOptions.pythonPath}'. `
+        + "Set PYTHON_PATH to a valid Python executable path. "
+        + `Original error: ${error.message}`,
+      );
+    }
+    throw error;
+  }
 }
 
 function buildRecommendationDocId(userId, accession) {
@@ -209,23 +259,6 @@ app.post("/recommendations/:userId/generate", async (req, res) => {
   }
 
   const options = parseGeneratedRecommendationsRequest(req);
-  const forceRegenerate = String(req.query.force || "").toLowerCase() === "true";
-
-  try {
-    const cachedRecommendations = await getStoredRecommendations(userId, options.topK);
-    if (!forceRegenerate && cachedRecommendations.length > 0) {
-      res.json({
-        user_id: userId,
-        generated: false,
-        from_cache: true,
-        count: cachedRecommendations.length,
-        recommendations: cachedRecommendations,
-      });
-      return;
-    }
-  } catch (_cacheErr) {
-    // Continue to generation flow if cache read fails.
-  }
 
   try {
     const recommendations = await runPythonRecommender(userId, options);
@@ -290,4 +323,5 @@ app.get("/recommendations/:userId", async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`SmartLib backend listening on port ${PORT}`);
+  console.log(`Recommender Python command: ${pythonRuntime.pythonPath}`);
 });

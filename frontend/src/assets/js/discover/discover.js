@@ -50,7 +50,7 @@ function getCurrentUserId() {
 
 async function triggerRecommendationGeneration(userId) {
   const response = await fetch(
-    `${API_BASE_URL}/recommendations/${encodeURIComponent(userId)}/generate?top_k=21&search_limit=10&saved_limit=100`,
+    `${API_BASE_URL}/recommendations/${encodeURIComponent(userId)}/generate?force=true&top_k=21&search_limit=10&saved_limit=100`,
     { method: "POST", headers: { "Content-Type": "application/json" } }
   );
 

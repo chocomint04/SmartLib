@@ -8,16 +8,44 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
+from train_recommender import train
+
 
 class ContentRecommender:
     def __init__(self, bundle_path: str):
-        self.bundle = joblib.load(bundle_path)
+        self.bundle = self._load_or_rebuild_bundle(bundle_path)
         self.meta: pd.DataFrame = self.bundle["meta"]
         self.vectorizer = self.bundle["vectorizer"]
         self.tfidf_matrix = self.bundle["tfidf_matrix"]
         self.sim_matrix = self.bundle["sim_matrix"]
         self.title_to_index = self.bundle["title_to_index"]
         self.accession_to_indices = self._build_accession_index()
+
+    @staticmethod
+    def _load_or_rebuild_bundle(bundle_path: str):
+        try:
+            return joblib.load(bundle_path)
+        except Exception as first_error:
+            bundle_file = Path(bundle_path).resolve()
+            csv_path = bundle_file.with_name("catalog.csv")
+
+            if not csv_path.exists():
+                raise RuntimeError(
+                    f"Failed to load recommender bundle '{bundle_file}' and no catalog.csv was found for rebuild. "
+                    f"Original error: {first_error}"
+                ) from first_error
+
+            # Rebuild the model bundle to match the current Python/pandas runtime.
+            train(str(csv_path), str(bundle_file))
+
+            try:
+                return joblib.load(bundle_file)
+            except Exception as second_error:
+                raise RuntimeError(
+                    f"Failed to rebuild and load recommender bundle at '{bundle_file}'. "
+                    f"Rebuild source CSV: '{csv_path}'. "
+                    f"Load error after rebuild: {second_error}"
+                ) from second_error
 
     def _build_accession_index(self) -> dict[str, list[int]]:
         mapping: dict[str, list[int]] = {}
