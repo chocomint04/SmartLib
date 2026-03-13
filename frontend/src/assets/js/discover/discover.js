@@ -9,7 +9,7 @@ import {
   where,
 } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-firestore.js";
 
-const API_BASE_URL = "https://smartlibmapua.onrender.com";
+const API_BASE_URL = "https://smartlib-recommender.onrender.com";
 const COVER_FALLBACK_URL = "../../assets/images/sample.png";
 const loadingOverlay = document.getElementById("discoverLoading");
 
