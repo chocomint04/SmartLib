@@ -3,7 +3,11 @@
 /auth/login  /pages/auth/login.html  302
 /login/  /pages/auth/login.html  302
 /auth/login/  /pages/auth/login.html  302
+/login.html  /pages/auth/login.html  302
+/auth/login.html  /pages/auth/login.html  302
 /signup  /pages/auth/signup.html  302
 /auth/signup  /pages/auth/signup.html  302
 /signup/  /pages/auth/signup.html  302
 /auth/signup/  /pages/auth/signup.html  302
+/signup.html  /pages/auth/signup.html  302
+/auth/signup.html  /pages/auth/signup.html  302

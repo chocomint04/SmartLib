@@ -5,8 +5,8 @@ import { db } from "../firebase/firebase.js";
 
 onAuthStateChanged(auth, async user => {
   const path = window.location.pathname;
-  const isLogin = path.endsWith('/auth/login.html');
-  const isSignup = path.endsWith('/auth/signup.html');
+  const isLogin = /\/(login|auth\/login)(\.html)?\/?$/i.test(path) || path.endsWith('/pages/auth/login.html');
+  const isSignup = /\/(signup|auth\/signup)(\.html)?\/?$/i.test(path) || path.endsWith('/pages/auth/signup.html');
   const isAuthPage = isLogin || isSignup;
 
   if (!user) {
