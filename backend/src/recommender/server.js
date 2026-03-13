@@ -5,7 +5,17 @@ const { spawnSync } = require("child_process");
 const { PythonShell } = require("python-shell");
 const admin = require("firebase-admin");
 
-const serviceAccount = require("../../serviceAccountKey.json");
+let serviceAccount;
+if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+  try {
+    serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  } catch (err) {
+    throw new Error("FIREBASE_SERVICE_ACCOUNT env var is not valid JSON: " + err.message);
+  }
+} else {
+  // Falls back to local file for development
+  serviceAccount = require("../../serviceAccountKey.json");
+}
 
 const app = express();
 const PORT = Number(process.env.PORT || 5000);

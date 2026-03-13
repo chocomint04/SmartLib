@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: smartlib-recommender
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install && pip install -r src/recommender/requirements.txt
+    startCommand: npm start
+    envVars:
+      - key: FIREBASE_SERVICE_ACCOUNT
+        sync: false   # You will paste the JSON value manually in the Render dashboard
+      - key: PYTHON_PATH
+        value: python3
