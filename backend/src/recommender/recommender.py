@@ -234,15 +234,24 @@ class ContentRecommender:
             ) from exc
 
         if not firebase_admin._apps:
-            if service_account_path:
-                key_path = Path(service_account_path).resolve()
+            import json as _json
+            import os as _os
+
+            env_json = _os.environ.get("FIREBASE_SERVICE_ACCOUNT", "").strip()
+            if env_json:
+                # Prefer the env var (used in production / Render)
+                cred = credentials.Certificate(_json.loads(env_json))
+            elif service_account_path:
+                cred = credentials.Certificate(str(Path(service_account_path).resolve()))
             else:
                 key_path = (Path(__file__).resolve().parents[2] / "serviceAccountKey.json").resolve()
+                if not key_path.exists():
+                    raise FileNotFoundError(
+                        f"Service account key not found at '{key_path}'. "
+                        "Set the FIREBASE_SERVICE_ACCOUNT environment variable with the JSON contents."
+                    )
+                cred = credentials.Certificate(str(key_path))
 
-            if not key_path.exists():
-                raise FileNotFoundError(f"Service account key not found: {key_path}")
-
-            cred = credentials.Certificate(str(key_path))
             firebase_admin.initialize_app(cred)
 
         return firestore.client(), firestore
